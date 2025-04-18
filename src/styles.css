@@ -1,1 +1,17 @@
 @import "tailwindcss";
+
+@theme {
+  --color-background: var(--color-stone-50);
+  --color-foreground: var(--color-stone-700);
+  --color-primary: #d3203c;
+  --color-primary-foreground: var(--color-stone-50);
+}
+
+/* body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+} */
+
+body:has(dialog[open]) {
+  overflow: hidden;
+}
