@@ -1,12 +1,7 @@
-import { supabase } from "../database/supabase";
 import { useQuery } from "@tanstack/react-query";
-
-type Blog = {
-  id: number;
-  title: string;
-  content: string;
-  created_at: string;
-};
+import { BlogCard } from "../../components/web/blog/blog-card";
+import { supabase } from "../../database/supabase";
+import { Blog } from "../../types/blog";
 
 export function Home() {
   const blogsQuery = useQuery({
@@ -36,16 +31,9 @@ export function Home() {
 
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {blogsQuery.data.map((blog) => (
-          <div key={blog.id} className="border p-4 mb-4">
-            <h2 className="text-xl font-semibold">{blog.title}</h2>
-            <p>{blog.content}</p>
-            <p className="text-sm text-gray-500">
-              {new Date(blog.created_at).toLocaleDateString()}
-            </p>
-          </div>
+          <BlogCard key={blog.id} blog={blog} />
         ))}
       </div>
     </>
