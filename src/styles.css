@@ -7,10 +7,10 @@
   --color-primary-foreground: var(--color-stone-50);
 }
 
-/* body {
+body {
   background-color: var(--color-background);
   color: var(--color-foreground);
-} */
+}
 
 body:has(dialog[open]) {
   overflow: hidden;

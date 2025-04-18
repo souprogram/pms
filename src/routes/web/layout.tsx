@@ -3,20 +3,18 @@ import { Navbar } from "../../components/web/navbar";
 
 export const WebLayout = () => {
   return (
-    <div className="bg-background text-foreground">
-      <div className="font-poppins flex min-h-dvh flex-col">
-        <div className="sticky top-0 z-50">
-          <Navbar />
-        </div>
-
-        <main className="isolate flex-1 sm:text-lg">
-          <section className="container mx-auto px-4 py-4 md:px-8 md:py-8 lg:px-16 xl:px-32">
-            <Outlet />
-          </section>
-        </main>
-
-        <Footer />
+    <div className="font-poppins flex min-h-dvh flex-col">
+      <div className="sticky top-0 z-50">
+        <Navbar />
       </div>
+
+      <main className="isolate flex-1 sm:text-lg">
+        <section className="container mx-auto px-4 py-4 md:px-8 md:py-8 lg:px-16 xl:px-32">
+          <Outlet />
+        </section>
+      </main>
+
+      <Footer />
     </div>
   );
 };
