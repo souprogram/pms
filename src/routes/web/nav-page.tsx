@@ -2,7 +2,7 @@ import { MDXComponents } from "mdx/types";
 import { useLoaderData } from "react-router";
 import { cn } from "../../lib/utils";
 
-export const NavPage = () => {
+export default function NavPage() {
   const { page: MdxComponent } = useLoaderData();
 
   const components: MDXComponents = {
@@ -61,4 +61,4 @@ export const NavPage = () => {
   };
 
   return <div>{MdxComponent({ components })}</div>;
-};
+}

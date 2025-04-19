@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, Outlet } from "react-router";
 import { cn } from "../../../lib/utils";
 
-export const DashboardLayout = () => {
+export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -98,4 +98,4 @@ export const DashboardLayout = () => {
       </div>
     </div>
   );
-};
+}

@@ -6,7 +6,7 @@ import { BlogInfo } from "../../components/web/blog/blog-info";
 import { createClient } from "../../lib/supabase/client";
 import { Blog } from "../../types/blog";
 
-export const BlogPage = () => {
+export default function BlogPage() {
   const params = useParams<{ id: string }>();
 
   const { data: blog, isPending: isBlogPending } = useQuery({
@@ -97,4 +97,4 @@ export const BlogPage = () => {
       </div>
     </section>
   );
-};
+}

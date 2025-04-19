@@ -1,7 +1,7 @@
 import { Button } from "../../../components/ui/button";
 import { useBlogList } from "../../../hooks/use-blog-list";
 
-export const DashboardPage = () => {
+export default function DashboardPage() {
   const {
     data,
     isPending,
@@ -100,7 +100,7 @@ export const DashboardPage = () => {
       )}
     </div>
   );
-};
+}
 
 const PendingState = () => {
   return (

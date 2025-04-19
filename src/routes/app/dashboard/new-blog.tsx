@@ -14,7 +14,7 @@ import {
 import { Textarea } from "../../../components/ui/textarea";
 import { createClient } from "../../../lib/supabase/client";
 
-export const NewBlogPage = () => {
+export default function NewBlogPage() {
   const supabase = createClient();
 
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -268,4 +268,4 @@ export const NewBlogPage = () => {
       </form>
     </div>
   );
-};
+}

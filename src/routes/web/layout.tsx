@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 import { Navbar } from "../../components/web/navbar";
 
-export const WebLayout = () => {
+export default function WebLayout() {
   return (
     <div className="font-poppins flex min-h-dvh flex-col">
       <div className="sticky top-0 z-50">
@@ -17,7 +17,7 @@ export const WebLayout = () => {
       <Footer />
     </div>
   );
-};
+}
 
 const Footer = () => {
   return (
