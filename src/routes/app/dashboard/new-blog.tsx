@@ -1,8 +1,9 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
+import { TiptapEditor } from "../../../components/app/tiptap-editor";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
-import { Textarea } from "../../../components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -10,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../../../components/ui/select";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Textarea } from "../../../components/ui/textarea";
 import { createClient } from "../../../lib/supabase/client";
 
 export const NewBlogPage = () => {
@@ -101,6 +102,8 @@ export const NewBlogPage = () => {
     },
   });
 
+  const [contentText, setContentText] = useState<string>("");
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -111,10 +114,11 @@ export const NewBlogPage = () => {
     const description = formData.get("description") as string;
     const image_alt = formData.get("alt-text") as string;
     const category = formData.get("category") as string;
-    const content = formData.get("content") as string;
     const hashtags = (formData.get("hashtags") as string)
       .split(",")
       .map((tag) => tag.trim());
+
+    const content = contentText;
 
     try {
       let image_url = "";
@@ -140,7 +144,7 @@ export const NewBlogPage = () => {
     <div className="p-4">
       <form onSubmit={handleSubmit}>
         <div className="">
-          <h1 className="text-2xl font-bold mb-6">Create New Blog Post</h1>
+          <h1 className="text-2xl font-bold mb-6">Dodaj novost</h1>
 
           <div className="space-y-6">
             {/* Title */}
@@ -170,7 +174,7 @@ export const NewBlogPage = () => {
             <div className="space-y-2">
               <Label>Featured Image</Label>
               <div className="flex flex-col gap-4">
-                <div className="w-48 h-48 bg-muted rounded-md flex items-center justify-center">
+                <div className="w-80 h-45 bg-muted rounded-md flex items-center justify-center">
                   {previewImage ? (
                     <img
                       src={previewImage}
@@ -200,7 +204,7 @@ export const NewBlogPage = () => {
                     Upload Image
                   </Button>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Recommended size: 1200x630px
+                    Recommended size: 1280x720px
                   </p>
                 </div>
               </div>
@@ -236,14 +240,8 @@ export const NewBlogPage = () => {
 
             {/* Content */}
             <div className="space-y-2">
-              <Label htmlFor="content">Content</Label>
-              <Textarea
-                id="content"
-                name="content"
-                placeholder="Write your blog content here..."
-                rows={10}
-                required
-              />
+              <Label>Content</Label>
+              <TiptapEditor onChange={setContentText} />
             </div>
 
             {/* Hashtags */}

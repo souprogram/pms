@@ -134,3 +134,38 @@ body:has(dialog[open]) {
     @apply bg-background text-foreground;
   }
 }
+
+/* Custom styles for the blog content */
+.blog-content {
+  @apply flex flex-col gap-4 font-serif;
+}
+
+.blog-content p:first-of-type {
+  @apply first-letter:float-start first-letter:me-2 first-letter:text-[2rem] first-letter:leading-12 sm:first-letter:text-[3rem] sm:first-letter:leading-14;
+}
+
+.blog-content h1 {
+  @apply text-3xl font-bold;
+}
+
+.blog-content h1,
+h2,
+h2 {
+  @apply font-sans;
+}
+
+.blog-content strong {
+  @apply font-bold;
+}
+
+.blog-content ul li {
+  @apply list-disc list-inside;
+}
+
+.blog-content ol li {
+  @apply list-decimal list-inside;
+}
+
+.blog-content li > * {
+  @apply inline;
+}
