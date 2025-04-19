@@ -4,10 +4,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-background: var(--color-stone-50);
-  --color-foreground: var(--color-stone-700);
-  --color-primary: #d3203c;
-  --color-primary-foreground: var(--color-stone-50);
+  --background: var(--color-stone-50);
+  --foreground: var(--color-stone-700);
+  --primary: #d3203c;
+  --primary-foreground: var(--color-stone-50);
 }
 
 body {
@@ -59,13 +59,13 @@ body:has(dialog[open]) {
 
 :root {
   --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.147 0.004 49.25);
+  --background: var(--color-stone-50);
+  --foreground: var(--color-stone-700);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.147 0.004 49.25);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.147 0.004 49.25);
-  --primary: oklch(0.216 0.006 56.043);
+  --primary: #d3203c;
   --primary-foreground: oklch(0.985 0.001 106.423);
   --secondary: oklch(0.97 0.001 106.424);
   --secondary-foreground: oklch(0.216 0.006 56.043);
@@ -99,7 +99,7 @@ body:has(dialog[open]) {
   --card-foreground: oklch(0.985 0.001 106.423);
   --popover: oklch(0.216 0.006 56.043);
   --popover-foreground: oklch(0.985 0.001 106.423);
-  --primary: oklch(0.923 0.003 48.717);
+  --primary: #d3203c;
   --primary-foreground: oklch(0.216 0.006 56.043);
   --secondary: oklch(0.268 0.007 34.298);
   --secondary-foreground: oklch(0.985 0.001 106.423);
