@@ -1,11 +1,12 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { createClient } from "../lib/supabase/client";
 import { Blog } from "../types/blog";
-import { supabase } from "../database/supabase";
 
 export const useBlogList = () => {
   const blogListQuery = useInfiniteQuery({
     queryKey: ["blog_list"],
     queryFn: async ({ pageParam }) => {
+      const supabase = createClient();
       const { data, error, count } = await supabase
         .from("blogs")
         .select("*", { count: "exact" })

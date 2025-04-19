@@ -1,5 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router";
+import { createClient } from "./lib/supabase/client";
+import { DashboardLayout } from "./routes/app/dashboard/layout";
+import { DashboardPage } from "./routes/app/dashboard/page";
+import { AppLayout } from "./routes/app/layout";
+import { LoginPage } from "./routes/app/login";
+import { SignUpPage } from "./routes/app/sign-up";
 import { BlogPage } from "./routes/web/blog";
 import { HomePage } from "./routes/web/Home";
 import { WebLayout } from "./routes/web/layout";
@@ -37,6 +43,38 @@ const router = createBrowserRouter([
         },
         errorElement: <div>Something went wrong</div>,
         element: <NavPage />,
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/login",
+        element: <LoginPage />,
+      },
+      {
+        path: "/sign-up",
+        element: <SignUpPage />,
+      },
+      {
+        path: "/dashboard",
+        element: <DashboardLayout />,
+        loader: async () => {
+          const client = createClient();
+          const { error } = await client.auth.getUser();
+
+          if (error) {
+            location.href = "/login";
+          }
+        },
+        children: [
+          {
+            index: true,
+            element: <DashboardPage />,
+          },
+        ],
       },
     ],
   },
