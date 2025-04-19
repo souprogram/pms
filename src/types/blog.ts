@@ -3,6 +3,7 @@ export type Blog = {
   title: string;
   description: string;
   image_url: string;
+  image_alt: string;
   category: string;
   author: string;
   created_at: string;

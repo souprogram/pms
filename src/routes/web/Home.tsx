@@ -3,7 +3,7 @@ import { Button } from "../../components/ui/button";
 import { BlogCard } from "../../components/web/blog/blog-card";
 import { useBlogList } from "../../hooks/use-blog-list";
 
-export function Home() {
+export function HomePage() {
   const {
     data,
     isPending,
