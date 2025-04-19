@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createClient } from "../../lib/supabase/client";
+import { supabase } from "../../lib/supabase/client";
 import { cn } from "../../lib/utils";
 import {
   Card,
@@ -24,7 +24,6 @@ export function SignUpForm({
   const [success, setSuccess] = useState(false);
 
   const handleSignUp = async (e: React.FormEvent) => {
-    const supabase = createClient();
     e.preventDefault();
     setError(null);
 

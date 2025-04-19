@@ -9,7 +9,7 @@ import {
 } from "../../components/ui/card";
 import { Input } from "../../components/ui/input";
 import { Label } from "../../components/ui/label";
-import { createClient } from "../../lib/supabase/client";
+import { supabase } from "../../lib/supabase/client";
 import { cn } from "../../lib/utils";
 
 export function ForgotPasswordForm({
@@ -22,7 +22,6 @@ export function ForgotPasswordForm({
   const [isLoading, setIsLoading] = useState(false);
 
   const handleForgotPassword = async (e: React.FormEvent) => {
-    const supabase = createClient();
     e.preventDefault();
     setIsLoading(true);
     setError(null);
