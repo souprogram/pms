@@ -12,11 +12,9 @@ import {
   SelectValue,
 } from "../../../components/ui/select";
 import { Textarea } from "../../../components/ui/textarea";
-import { createClient } from "../../../lib/supabase/client";
+import { supabase } from "../../../lib/supabase/client";
 
 export default function NewBlogPage() {
-  const supabase = createClient();
-
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);

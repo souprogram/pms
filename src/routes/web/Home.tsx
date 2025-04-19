@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "../../components/ui/button";
 import { BlogCard } from "../../components/web/blog/blog-card";
-import { useBlogList } from "../../hooks/use-blog-list";
+import { useBlogListQuery } from "../../hooks/use-blog-list-query";
 
 export default function HomePage() {
   const {
@@ -12,7 +12,7 @@ export default function HomePage() {
     hasNextPage,
     isFetching,
     isFetchingNextPage,
-  } = useBlogList();
+  } = useBlogListQuery();
 
   if (isPending) {
     return (

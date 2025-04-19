@@ -3,7 +3,7 @@ import { useParams } from "react-router";
 import { BlogCard } from "../../components/web/blog/blog-card";
 import { BlogContent } from "../../components/web/blog/blog-content";
 import { BlogInfo } from "../../components/web/blog/blog-info";
-import { createClient } from "../../lib/supabase/client";
+import { supabase } from "../../lib/supabase/client";
 import { Blog } from "../../types/blog";
 
 export default function BlogPage() {
@@ -12,7 +12,6 @@ export default function BlogPage() {
   const { data: blog, isPending: isBlogPending } = useQuery({
     queryKey: ["blog", params.id],
     queryFn: async () => {
-      const supabase = createClient();
       const { data, error } = await supabase
         .from("blogs")
         .select("*")
@@ -32,7 +31,6 @@ export default function BlogPage() {
         return [];
       }
 
-      const supabase = createClient();
       const { data, error } = await supabase
         .from("blogs")
         .select("*")
