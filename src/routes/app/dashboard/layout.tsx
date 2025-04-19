@@ -11,7 +11,7 @@ export const DashboardLayout = () => {
   };
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen">
       {/* Sidebar */}
       <aside
         className={`${
@@ -113,7 +113,7 @@ export const DashboardLayout = () => {
         </header>
 
         {/* Content */}
-        <main className="flex-1 overflow-y-auto bg-gray-50">
+        <main className="flex-1 overflow-y-auto">
           <Outlet />
         </main>
       </div>

@@ -2,6 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { createClient } from "./lib/supabase/client";
 import { DashboardLayout } from "./routes/app/dashboard/layout";
+import { NewBlogPage } from "./routes/app/dashboard/new-blog";
 import { DashboardPage } from "./routes/app/dashboard/page";
 import { AppLayout } from "./routes/app/layout";
 import { LoginPage } from "./routes/app/login";
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
           {
             index: true,
             element: <DashboardPage />,
+          },
+          {
+            path: "new-blog",
+            element: <NewBlogPage />,
           },
         ],
       },
