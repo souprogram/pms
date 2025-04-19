@@ -93,7 +93,7 @@ export const NewBlogPage = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
       // toast.success("Blog created successfully!");
-      location.href = "/dashboard/blogs";
+      location.href = "/dashboard";
     },
     onError: (error) => {
       // toast.error("Failed to create blog");
