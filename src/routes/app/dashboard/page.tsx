@@ -50,10 +50,6 @@ export const DashboardPage = () => {
                 </div>
 
                 <p className="text-sm text-stone-600 mt-2 line-clamp-2">
-                  {blog.description} {blog.description}
-                  {blog.description}
-                  {blog.description}
-                  {blog.description}
                   {blog.description}
                 </p>
 
