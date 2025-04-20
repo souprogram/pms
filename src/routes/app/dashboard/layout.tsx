@@ -17,11 +17,17 @@ export default function DashboardLayout() {
     <div className="flex h-screen">
       {/* Sidebar */}
       <aside
-        className={`${
-          sidebarOpen ? "w-64" : "w-20"
-        } bg-stone-100 border-r transition-all duration-300 ease-in-out flex flex-col`}
+        className={cn(
+          sidebarOpen ? "w-64" : "w-16",
+          "bg-stone-100 border-r transition-all duration-300 ease-in-out flex flex-col",
+        )}
       >
-        <div className="p-4 flex items-center justify-between">
+        <div
+          className={cn(
+            "p-4 flex items-center justify-between transition",
+            !sidebarOpen && "px-2",
+          )}
+        >
           {sidebarOpen && (
             <h1 className="text-xl font-bold line-clamp-1">Author Dashboard</h1>
           )}
@@ -39,14 +45,14 @@ export default function DashboardLayout() {
         </div>
 
         <nav className="flex-1 p-2 border-t border-foreground/15">
-          <ul className="flex flex-col gap-1">
+          <ul className="flex flex-col gap-1 text-sm">
             <li>
               <Link
                 to="/dashboard"
                 className="flex items-center p-2 hover:bg-stone-200 transition-colors rounded-lg"
               >
-                <Newspaper />
-                {sidebarOpen && <span className="ml-3">My Blogs</span>}
+                <Newspaper size="20" />
+                {sidebarOpen && <span className="ml-3">Moje novosti</span>}
               </Link>
             </li>
             <li>
@@ -54,8 +60,8 @@ export default function DashboardLayout() {
                 to="/dashboard/new-blog"
                 className="flex items-center p-2 hover:bg-stone-200 transition-colors rounded-lg"
               >
-                <Plus />
-                {sidebarOpen && <span className="ml-3">New Blog</span>}
+                <Plus size="20" />
+                {sidebarOpen && <span className="ml-3">Dodaj novost</span>}
               </Link>
             </li>
           </ul>
