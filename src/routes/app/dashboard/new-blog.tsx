@@ -19,12 +19,13 @@ import { useCurrentUser } from "../../../hooks/use-current-user";
 import { supabase } from "../../../lib/supabase/client";
 
 export default function NewBlogPage() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const user = useCurrentUser();
+
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const queryClient = useQueryClient();
-  const user = useCurrentUser();
-  const navigate = useNavigate();
 
   const categories = [
     { value: "Šou program", label: "Šou program" },
@@ -240,8 +241,8 @@ export default function NewBlogPage() {
 
             {/* Category */}
             <div className="space-y-2">
-              <Label>Category</Label>
-              <Select name="category" required>
+              <Label>Udruga</Label>
+              <Select name="category">
                 <SelectTrigger>
                   <SelectValue placeholder="Select a category" />
                 </SelectTrigger>

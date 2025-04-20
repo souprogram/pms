@@ -33,7 +33,7 @@ export default function DashboardLayout() {
           )}
           <button
             onClick={toggleSidebar}
-            className="p-2 rounded-lg hover:bg-stone-200"
+            className="p-2 rounded-lg hover:bg-foreground/10"
           >
             <ChevronRight
               className={cn(
@@ -49,7 +49,7 @@ export default function DashboardLayout() {
             <li>
               <Link
                 to="/dashboard"
-                className="flex items-center p-2 hover:bg-stone-200 transition-colors rounded-lg"
+                className="flex items-center p-2 hover:bg-foreground/10 transition-colors rounded-lg"
               >
                 <Newspaper size="20" />
                 {sidebarOpen && <span className="ml-3">Moje novosti</span>}
@@ -58,7 +58,7 @@ export default function DashboardLayout() {
             <li>
               <Link
                 to="/dashboard/new-blog"
-                className="flex items-center p-2 hover:bg-stone-200 transition-colors rounded-lg"
+                className="flex items-center p-2 hover:bg-foreground/10 transition-colors rounded-lg"
               >
                 <Plus size="20" />
                 {sidebarOpen && <span className="ml-3">Dodaj novost</span>}
@@ -71,7 +71,7 @@ export default function DashboardLayout() {
         <div className="p-2 border-t border-foreground/15">
           <Link
             to="/dashboard/profile"
-            className="flex items-center hover:bg-stone-200 p-2 rounded-lg"
+            className="flex items-center hover:bg-foreground/10 p-2 rounded-lg"
           >
             <CurrentUserAvatar />
             {sidebarOpen && (
