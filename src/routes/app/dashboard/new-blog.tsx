@@ -78,9 +78,16 @@ export default function NewBlogPage() {
       content: string;
       hashtags: string[];
     }) => {
+      const { data: userData, error: userError } =
+        await supabase.auth.getUser();
+
+      if (userError) {
+        throw userError;
+      }
+
       const { data, error } = await supabase
         .from("blogs")
-        .insert([{ ...formData, author: "Ja" }])
+        .insert([{ ...formData, author: "Ja", author_id: userData.user.id }])
         .select();
 
       if (error) {
@@ -202,7 +209,7 @@ export default function NewBlogPage() {
                     Upload Image
                   </Button>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Recommended size: 1280x720px
+                    Preporučena veličina: 1280x720px
                   </p>
                 </div>
               </div>
