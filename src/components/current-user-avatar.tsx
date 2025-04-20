@@ -8,6 +8,7 @@ export const CurrentUserAvatar = () => {
     ?.split(" ")
     ?.map((word) => word[0])
     ?.join("")
+    ?.slice(0, 2)
     ?.toUpperCase();
 
   const profileImage = user?.user.user_metadata.avatar_url as string | null;

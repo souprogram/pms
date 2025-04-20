@@ -4,6 +4,7 @@ import { useNavigate } from "react-router";
 import { toast } from "sonner";
 import { TiptapEditor } from "../../../components/app/tiptap-editor";
 import { Button } from "../../../components/ui/button";
+import { Checkbox } from "../../../components/ui/checkbox";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
 import {
@@ -269,6 +270,25 @@ export default function NewBlogPage() {
                 placeholder="Add comma separated tags (e.g., tech, web, design)"
                 required
               />
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-center gap-x-2">
+                <Checkbox id="send-users" />
+                <Label htmlFor="send-users">
+                  Pošalji svim korisnicima na email
+                </Label>
+              </div>
+
+              <div className="flex items-center gap-x-2">
+                <Checkbox id="create-more" />
+                <Label htmlFor="create-more">
+                  Kreiraj još jedan post{" "}
+                  <span className="text-muted-foreground">
+                    (Ostani na ovoj stranici)
+                  </span>
+                </Label>
+              </div>
             </div>
 
             {/* Actions */}
