@@ -1,13 +1,13 @@
 import { ChevronRight, Newspaper, Plus, Settings } from "lucide-react";
 import { useState } from "react";
 import { Link, Outlet } from "react-router";
-import { cn } from "../../../lib/utils";
 import { CurrentUserAvatar } from "../../../components/current-user-avatar";
-import { useCurrentUserName } from "../../../hooks/use-current-user-name";
+import { useCurrentUser } from "../../../hooks/use-current-user";
+import { cn } from "../../../lib/utils";
 
 export default function DashboardLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const username = useCurrentUserName();
+  const user = useCurrentUser();
 
   const toggleSidebar = () => {
     setSidebarOpen((prev) => !prev);
@@ -62,16 +62,21 @@ export default function DashboardLayout() {
         </nav>
 
         {/* User info at bottom */}
-        <div className="p-4 border-t border-foreground/15">
-          <div className="flex items-center">
+        <div className="p-2 border-t border-foreground/15">
+          <a
+            href="/dashboard/profile"
+            className="flex items-center hover:bg-primary/50 p-2 rounded-lg"
+          >
             <CurrentUserAvatar />
             {sidebarOpen && (
               <div className="ml-3">
-                <p className="text-sm font-medium">{username}</p>
-                <p className="text-xs text-background/75">author@example.com</p>
+                <p className="text-sm font-medium">{user?.profile.full_name}</p>
+                <p className="text-xs text-background/75">
+                  {user?.user.email ?? ""}
+                </p>
               </div>
             )}
-          </div>
+          </a>
           {sidebarOpen && (
             <button className="mt-3 w-full text-left text-sm hover:bg-primary p-2 rounded-lg flex items-center">
               <Settings />

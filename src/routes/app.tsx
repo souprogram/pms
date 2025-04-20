@@ -32,6 +32,10 @@ export const appRoutes: RouteObject[] = [
             path: "new-blog",
             Component: lazy(() => import("./app/dashboard/new-blog")),
           },
+          {
+            path: "profile",
+            Component: lazy(() => import("./app/dashboard/profile")),
+          },
         ],
       },
     ],

@@ -13,12 +13,14 @@ import {
 } from "../../../components/ui/select";
 import { Textarea } from "../../../components/ui/textarea";
 import { supabase } from "../../../lib/supabase/client";
+import { useCurrentUser } from "../../../hooks/use-current-user";
 
 export default function NewBlogPage() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
+  const user = useCurrentUser();
 
   const categories = [
     { value: "Šou program", label: "Šou program" },
@@ -87,7 +89,13 @@ export default function NewBlogPage() {
 
       const { data, error } = await supabase
         .from("blogs")
-        .insert([{ ...formData, author: "Ja", author_id: userData.user.id }])
+        .insert([
+          {
+            ...formData,
+            author: user?.profile.full_name,
+            author_id: userData.user.id,
+          },
+        ])
         .select();
 
       if (error) {
