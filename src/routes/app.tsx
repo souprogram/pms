@@ -4,7 +4,6 @@ import { supabase } from "../lib/supabase/client";
 
 export const appRoutes: RouteObject[] = [
   {
-    path: "/",
     Component: lazy(() => import("./app/layout")),
     children: [
       {
@@ -17,13 +16,13 @@ export const appRoutes: RouteObject[] = [
       },
       {
         path: "/dashboard",
-        Component: lazy(() => import("./app/dashboard/layout")),
         loader: async () => {
           const { error } = await supabase.auth.getUser();
           if (error) {
             throw new Response("Not found", { status: 404 });
           }
         },
+        Component: lazy(() => import("./app/dashboard/layout")),
         children: [
           {
             index: true,

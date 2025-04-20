@@ -3,7 +3,6 @@ import { RouteObject } from "react-router";
 
 export const webRoutes: RouteObject[] = [
   {
-    path: "/",
     Component: lazy(() => import("./web/layout")),
     children: [
       {
@@ -16,21 +15,16 @@ export const webRoutes: RouteObject[] = [
       },
       {
         path: "/:navPage",
-        lazy: async () => {
-          const { default: Component } = await import("./web/nav-page");
-          return {
-            Component,
-            loader: async ({ params }) => {
-              const pageName = params.navPage;
-              if (!pageName) throw new Response("Not found", { status: 404 });
+        loader: async ({ params }) => {
+          const pageName = params.navPage;
+          if (!pageName) throw new Response("Not found", { status: 404 });
 
-              const page = await import(
-                `../components/web/nav-content/${pageName}.mdx`
-              );
-              return { page: page.default };
-            },
-          };
+          const page = await import(
+            `../components/web/nav-content/${pageName}.mdx`
+          );
+          return { page: page.default };
         },
+        Component: lazy(() => import("./web/nav-page")),
       },
     ],
   },
