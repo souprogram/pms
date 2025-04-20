@@ -1,3 +1,4 @@
+import { Link } from "react-router";
 import { Blog } from "../../../types/blog";
 import { Button } from "../../ui/button";
 
@@ -9,7 +10,7 @@ export const BlogInfo = ({ blog }: Props) => {
   return (
     <div className="flex items-center gap-1 text-base">
       <Button asChild variant="link" className="p-0">
-        <a href={`/blogs/${blog?.id}`}>{blog?.category}</a>
+        <Link to={`/blogs/${blog?.id}`}>{blog?.category}</Link>
       </Button>
       <span className="px-1">{blog?.author}</span>
       <span className="text-foreground/75">

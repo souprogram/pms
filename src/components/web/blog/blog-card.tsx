@@ -3,6 +3,7 @@ import { cn } from "../../../lib/utils";
 import { Blog } from "../../../types/blog";
 import { BlogImgLink } from "./blog-img-link";
 import { BlogInfo } from "./blog-info";
+import { Link } from "react-router";
 
 type BlogProps = {
   blog: Blog;
@@ -42,11 +43,11 @@ const BlogCardHeader = ({
   children: React.ReactNode;
 }) => {
   return (
-    <a href={href} className="w-fit">
+    <Link to={href} className="w-fit">
       <h3 className="hover:text-primary decoration-primary line-clamp-2 text-lg font-semibold text-balance hyphens-auto decoration-3 underline-offset-4 transition">
         {children}
       </h3>
-    </a>
+    </Link>
   );
 };
 

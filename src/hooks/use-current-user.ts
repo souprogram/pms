@@ -33,9 +33,5 @@ export const useCurrentUser = () => {
     throw userError;
   }
 
-  if (!userData) {
-    return null;
-  }
-
-  return userData;
+  return userData ?? null;
 };

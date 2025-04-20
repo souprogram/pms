@@ -63,8 +63,8 @@ export default function DashboardLayout() {
 
         {/* User info at bottom */}
         <div className="p-2 border-t border-foreground/15">
-          <a
-            href="/dashboard/profile"
+          <Link
+            to="/dashboard/profile"
             className="flex items-center hover:bg-primary/50 p-2 rounded-lg"
           >
             <CurrentUserAvatar />
@@ -76,7 +76,7 @@ export default function DashboardLayout() {
                 </p>
               </div>
             )}
-          </a>
+          </Link>
           {sidebarOpen && (
             <button className="mt-3 w-full text-left text-sm hover:bg-primary p-2 rounded-lg flex items-center">
               <Settings />

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Pms } from "../icons/pms";
 import { CloseIcon } from "../icons/close-icon";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { HamburgerIcon } from "../icons/hamburger-icon";
 import { cn } from "../../lib/utils";
 
@@ -113,9 +113,9 @@ export const Navbar = () => {
   return (
     <header className="bg-background sticky top-0 flex items-center px-4 py-2 shadow sm:p-4">
       <div className="flex items-center">
-        <a href="/">
+        <Link to="/">
           <Pms className="h-16 sm:h-24" />
-        </a>
+        </Link>
       </div>
 
       <nav className="divide-foreground hidden divide-x lg:flex">
@@ -183,9 +183,9 @@ const MobileNavigationDrawer = ({
       <div className="flex h-full flex-col gap-4 px-4 sm:px-4">
         <div className="bg-background sticky top-0 z-10 py-2">
           <div className="flex items-center justify-between pb-2">
-            <a href="/" onClick={toggle}>
+            <Link to="/" onClick={toggle}>
               <Pms className="h-16 sm:h-24" />
-            </a>
+            </Link>
 
             <button type="button" className="text-foreground" onClick={toggle}>
               <CloseIcon />
