@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
 import { TiptapEditor } from "../../../components/app/tiptap-editor";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
@@ -12,8 +14,8 @@ import {
   SelectValue,
 } from "../../../components/ui/select";
 import { Textarea } from "../../../components/ui/textarea";
-import { supabase } from "../../../lib/supabase/client";
 import { useCurrentUser } from "../../../hooks/use-current-user";
+import { supabase } from "../../../lib/supabase/client";
 
 export default function NewBlogPage() {
   const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -21,6 +23,7 @@ export default function NewBlogPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const queryClient = useQueryClient();
   const user = useCurrentUser();
+  const navigate = useNavigate();
 
   const categories = [
     { value: "Šou program", label: "Šou program" },
@@ -106,11 +109,11 @@ export default function NewBlogPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["blogs"] });
-      // toast.success("Blog created successfully!");
-      location.href = "/dashboard";
+      toast.success("Blog created successfully!", { closeButton: true });
+      navigate("/dashboard");
     },
     onError: (error) => {
-      // toast.error("Failed to create blog");
+      toast.error("Failed to create blog", { closeButton: true });
       console.error(error);
     },
   });

@@ -1,4 +1,4 @@
-import { ChevronRight, Newspaper, Plus, Settings } from "lucide-react";
+import { ChevronRight, Newspaper, Plus } from "lucide-react";
 import { useState } from "react";
 import { Link, Outlet } from "react-router";
 import { CurrentUserAvatar } from "../../../components/current-user-avatar";
@@ -19,7 +19,7 @@ export default function DashboardLayout() {
       <aside
         className={`${
           sidebarOpen ? "w-64" : "w-20"
-        } bg-primary/90 text-white transition-all duration-300 ease-in-out flex flex-col`}
+        } bg-stone-100 border-r transition-all duration-300 ease-in-out flex flex-col`}
       >
         <div className="p-4 flex items-center justify-between">
           {sidebarOpen && (
@@ -27,7 +27,7 @@ export default function DashboardLayout() {
           )}
           <button
             onClick={toggleSidebar}
-            className="p-2 rounded-lg hover:bg-primary"
+            className="p-2 rounded-lg hover:bg-stone-200"
           >
             <ChevronRight
               className={cn(
@@ -38,12 +38,12 @@ export default function DashboardLayout() {
           </button>
         </div>
 
-        <nav className="flex-1 mt-6">
-          <ul>
+        <nav className="flex-1 p-2 border-t border-foreground/15">
+          <ul className="flex flex-col gap-1">
             <li>
               <Link
                 to="/dashboard"
-                className="flex items-center p-4 hover:bg-primary transition-colors"
+                className="flex items-center p-2 hover:bg-stone-200 transition-colors rounded-lg"
               >
                 <Newspaper />
                 {sidebarOpen && <span className="ml-3">My Blogs</span>}
@@ -52,7 +52,7 @@ export default function DashboardLayout() {
             <li>
               <Link
                 to="/dashboard/new-blog"
-                className="flex items-center p-4 hover:bg-primary transition-colors"
+                className="flex items-center p-2 hover:bg-stone-200 transition-colors rounded-lg"
               >
                 <Plus />
                 {sidebarOpen && <span className="ml-3">New Blog</span>}
@@ -65,24 +65,18 @@ export default function DashboardLayout() {
         <div className="p-2 border-t border-foreground/15">
           <Link
             to="/dashboard/profile"
-            className="flex items-center hover:bg-primary/50 p-2 rounded-lg"
+            className="flex items-center hover:bg-stone-200 p-2 rounded-lg"
           >
             <CurrentUserAvatar />
             {sidebarOpen && (
               <div className="ml-3">
                 <p className="text-sm font-medium">{user?.profile.full_name}</p>
-                <p className="text-xs text-background/75">
+                <p className="text-xs text-muted-foreground">
                   {user?.user.email ?? ""}
                 </p>
               </div>
             )}
           </Link>
-          {sidebarOpen && (
-            <button className="mt-3 w-full text-left text-sm hover:bg-primary p-2 rounded-lg flex items-center">
-              <Settings />
-              <span className="ml-2">Settings</span>
-            </button>
-          )}
         </div>
       </aside>
 
