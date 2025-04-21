@@ -45,7 +45,11 @@ export default function SearchPage() {
         </form>
       </div>
 
-      <div className="pb-6">Prikazani rezultati za "{searchQuery}":</div>
+      {searchQuery === "" ? (
+        <h1 className="text-xl font-medium">Unesite pojam za pretragu</h1>
+      ) : (
+        <div className="pb-6">Prikazani rezultati za "{searchQuery}":</div>
+      )}
 
       {isPending && (
         <div className="flex items-center justify-center">
@@ -59,40 +63,44 @@ export default function SearchPage() {
         </div>
       )}
 
-      {dataList && dataList?.length > 0 && (
-        <div className="flex flex-col divide-y divide-primary border-y border-primary">
-          {dataList.map((blog) => (
-            <div key={blog.id} className="flex gap-6 py-3">
-              <BlogImgLink
-                href={`/blogs/${blog.id}`}
-                className="h-48 w-full aspect-[12/10] object-cover object-center"
-                src={blog.image_url}
-                alt={blog.title}
-              />
+      {searchQuery && (
+        <>
+          {dataList && dataList?.length > 0 && (
+            <div className="flex flex-col divide-y divide-primary border-y border-primary">
+              {dataList.map((blog) => (
+                <div key={blog.id} className="flex gap-6 py-3">
+                  <BlogImgLink
+                    href={`/blogs/${blog.id}`}
+                    className="h-48 w-full aspect-[12/10] object-cover object-center"
+                    src={blog.image_url}
+                    alt={blog.title}
+                  />
 
-              <div className="flex flex-col gap-1">
-                <BlogCardHeader href={`/blogs/${blog.id}`}>
-                  {blog.title}
-                </BlogCardHeader>
-                <BlogInfo blog={blog} />
-                <span className="text-base">{blog.description}</span>
-              </div>
+                  <div className="flex flex-col gap-1">
+                    <BlogCardHeader href={`/blogs/${blog.id}`}>
+                      {blog.title}
+                    </BlogCardHeader>
+                    <BlogInfo blog={blog} />
+                    <span className="text-base">{blog.description}</span>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
+          )}
 
-      {hasNextPage && (
-        <div className="flex justify-center pt-8">
-          <Button
-            variant="link"
-            size="lg"
-            onClick={() => fetchNextPage()}
-            disabled={isFetchingNextPage}
-          >
-            {isFetchingNextPage ? "Učitavam..." : "Učitaj više"}
-          </Button>
-        </div>
+          {hasNextPage && (
+            <div className="flex justify-center pt-8">
+              <Button
+                variant="link"
+                size="lg"
+                onClick={() => fetchNextPage()}
+                disabled={isFetchingNextPage}
+              >
+                {isFetchingNextPage ? "Učitavam..." : "Učitaj više"}
+              </Button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );

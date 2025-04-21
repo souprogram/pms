@@ -1,11 +1,8 @@
+import { MenuIcon, XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { cn } from "../../lib/utils";
-import { CloseIcon } from "../icons/close-icon";
-import { HamburgerIcon } from "../icons/hamburger-icon";
 import { Pms } from "../icons/pms";
-import { Button } from "../ui/button";
-import { Searchbar } from "../ui/searchbar";
 
 const links = [
   {
@@ -88,9 +85,6 @@ const links = [
 ];
 
 export const Navbar = () => {
-  const [saerchParams] = useSearchParams();
-  const searchTerm = saerchParams.get("q") || "";
-
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
   const toggleDropdown = (index: number) => {
@@ -120,18 +114,20 @@ export const Navbar = () => {
             toggleDropdown={() => toggleDropdown(index)}
           />
         ))}
+        <Link
+          to="/pretrazi"
+          className="px-6 hover:text-primary hover:underline"
+        >
+          Pretraži
+        </Link>
       </nav>
-
-      <div className="ml-auto hidden w-96 lg:block">
-        <NavSearchbar defaultValue={searchTerm} />
-      </div>
 
       <button
         type="button"
         className="text-foreground ml-auto block lg:hidden"
         onClick={toggleModal}
       >
-        <HamburgerIcon />
+        <MenuIcon size="32" />
       </button>
 
       <MobileNavigationDrawer
@@ -152,9 +148,6 @@ const MobileNavigationDrawer = ({
   toggle: () => void;
   links: { title: string; options: { label: string; href: string }[] }[];
 }) => {
-  const [saerchParams] = useSearchParams();
-  const searchTerm = saerchParams.get("q") || "";
-
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -182,11 +175,9 @@ const MobileNavigationDrawer = ({
             </Link>
 
             <button type="button" className="text-foreground" onClick={toggle}>
-              <CloseIcon />
+              <XIcon size="32" />
             </button>
           </div>
-
-          <NavSearchbar defaultValue={searchTerm} />
         </div>
 
         <nav className="flex-1 overflow-y-auto">
@@ -245,7 +236,7 @@ const NavItem = ({
         onClick={toggleDropdown}
         aria-controls={`${link.title}-menu`}
         data-opened={!isOpen && undefined}
-        className="hover:text-primary data-opened:text-primary-600 px-6 text-center hover:underline"
+        className="hover:text-primary data-opened:text-primary-600 px-6 text-center hover:underline hover:cursor-pointer"
         tabIndex={0}
       >
         {link.title}
@@ -266,37 +257,5 @@ const NavItem = ({
         </div>
       )}
     </div>
-  );
-};
-
-const NavSearchbar = ({ defaultValue }: { defaultValue?: string }) => {
-  const [searchTerm, setSearchTerm] = useState(defaultValue ?? "");
-  const navigate = useNavigate();
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const search = (formData.get("q") as string).trim();
-
-    if (search) {
-      navigate(`/pretrazi?q=${search}`);
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit} className="flex items-center gap-2">
-      <div className="basis-full">
-        <Searchbar
-          name="q"
-          value={searchTerm}
-          onChange={(e) => {
-            setSearchTerm(e.target.value);
-          }}
-          aria-label="Pretraži"
-          placeholder="Pretraži"
-        />
-      </div>
-      <Button type="submit">Pretraži</Button>
-    </form>
   );
 };
