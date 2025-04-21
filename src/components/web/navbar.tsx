@@ -1,8 +1,10 @@
 import { MenuIcon, XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { cn } from "../../lib/utils";
 import { Pms } from "../icons/pms";
+import { Searchbar } from "../ui/searchbar";
+import { Button } from "../ui/button";
 
 const links = [
   {
@@ -148,6 +150,9 @@ const MobileNavigationDrawer = ({
   toggle: () => void;
   links: { title: string; options: { label: string; href: string }[] }[];
 }) => {
+  const [saerchParams] = useSearchParams();
+  const searchTerm = saerchParams.get("q") || "";
+
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -157,6 +162,19 @@ const MobileNavigationDrawer = ({
       dialogRef.current?.close();
     }
   }, [isOpen]);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const search = (formData.get("q") as string).trim();
+
+    if (search) {
+      navigate(`/pretrazi?q=${search}`);
+      toggle();
+    }
+  };
 
   return (
     <dialog
@@ -178,6 +196,18 @@ const MobileNavigationDrawer = ({
               <XIcon size="32" />
             </button>
           </div>
+
+          <form onSubmit={handleSubmit} className="flex items-center gap-2">
+            <div className="basis-full">
+              <Searchbar
+                name="q"
+                defaultValue={searchTerm}
+                aria-label="Pretraži"
+                placeholder="Pretraži"
+              />
+            </div>
+            <Button type="submit">Pretraži</Button>
+          </form>
         </div>
 
         <nav className="flex-1 overflow-y-auto">
