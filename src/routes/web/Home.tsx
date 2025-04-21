@@ -18,14 +18,23 @@ export default function HomePage() {
     data?.pages.flatMap((page) => page.blogs) || [],
   );
 
+  const loadingRows = useResponsiveChunks(Array.from({ length: 10 }));
+
   if (isPending) {
     return (
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {Array.from({ length: 12 }).map((_, index) => (
-          <div key={index} className="animate-pulse rounded-lg">
-            <div className="h-60 w-full rounded-lg bg-stone-200"></div>
-            <div className="mt-4 h-6 w-3/4 rounded bg-stone-200"></div>
-            <div className="mt-2 h-6 w-full rounded bg-stone-200"></div>
+      <div className="space-y-4">
+        {loadingRows.map((row, rowIndex) => (
+          <div
+            key={`row-${rowIndex}`}
+            className={`grid gap-4 ${getGridClass(row.length)}`}
+          >
+            {row.map((_, index) => (
+              <div key={index} className="animate-pulse rounded-lg">
+                <div className="h-60 w-full rounded-lg bg-stone-200"></div>
+                <div className="mt-4 h-6 w-3/4 rounded bg-stone-200"></div>
+                <div className="mt-2 h-6 w-full rounded bg-stone-200"></div>
+              </div>
+            ))}
           </div>
         ))}
       </div>
@@ -75,7 +84,7 @@ export default function HomePage() {
   );
 }
 
-function getGridClass(count: number) {
+const getGridClass = (count: number) => {
   const base = {
     1: "grid-cols-1",
     2: "grid-cols-2",
@@ -83,6 +92,5 @@ function getGridClass(count: number) {
     4: "grid-cols-4",
   } as { [key: number]: string };
 
-  // Fallback for unexpected counts
   return base[count] || base[1];
-}
+};

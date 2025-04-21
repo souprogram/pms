@@ -1,27 +1,31 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
 import { supabase } from "../lib/supabase/client";
 import { Blog } from "../types/blog";
+import { useResponsiveChunks } from "./use-responsive-chunks";
 
 type UseBlogListQueryProps = {
-  myBlogsOnly?: boolean;
+  myBlogsOnly: boolean;
+  searchQuery?: string;
 };
 
-export const useBlogListQuery = (options?: UseBlogListQueryProps) => {
-  const { myBlogsOnly = false } = options || {};
+const getUserId = async () => {
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error || !data.user) {
+    throw new Error("Not authenticated");
+  }
+
+  return data.user.id;
+};
+
+export const useBlogListQuery = (options?: Partial<UseBlogListQueryProps>) => {
+  const { myBlogsOnly = false, searchQuery = "" } = options || {};
 
   const blogListQuery = useInfiniteQuery({
-    queryKey: ["blog_list", { myBlogsOnly }],
+    queryKey: ["blog_list", { myBlogsOnly, searchQuery }],
     queryFn: async ({ pageParam }) => {
-      let userId: string | undefined;
-      if (myBlogsOnly) {
-        console.log("Fetching user ID...");
-        const {
-          data: { user },
-          error,
-        } = await supabase.auth.getUser();
-        if (error || !user) throw new Error("Not authenticated");
-        userId = user.id;
-      }
+      const userId = myBlogsOnly ? await getUserId() : null;
 
       let query = supabase
         .from("blogs")
@@ -29,8 +33,14 @@ export const useBlogListQuery = (options?: UseBlogListQueryProps) => {
         .order("created_at", { ascending: false });
 
       if (myBlogsOnly && userId) {
-        console.log("Filtering blogs by user ID:", userId);
         query = query.eq("author_id", userId);
+      }
+
+      if (searchQuery) {
+        console.log("Filtering blogs by search query:", searchQuery);
+        query = query.or(
+          `title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%,content.ilike.%${searchQuery}%,category.ilike.%${searchQuery}%`,
+        );
       }
 
       const { data, error, count } = await query.range(
@@ -54,5 +64,15 @@ export const useBlogListQuery = (options?: UseBlogListQueryProps) => {
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 
-  return blogListQuery;
+  const dataList = useMemo(() => {
+    return blogListQuery.data?.pages.flatMap((page) => page.blogs);
+  }, [blogListQuery.data]);
+
+  const rows = useResponsiveChunks(dataList ?? []);
+
+  return {
+    ...blogListQuery,
+    dataList,
+    rows,
+  };
 };

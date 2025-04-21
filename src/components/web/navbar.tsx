@@ -89,7 +89,7 @@ const links = [
 
 export const Navbar = () => {
   const [saerchParams] = useSearchParams();
-  const searchTerm = saerchParams.get("search") || "";
+  const searchTerm = saerchParams.get("q") || "";
 
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
@@ -153,7 +153,7 @@ const MobileNavigationDrawer = ({
   links: { title: string; options: { label: string; href: string }[] }[];
 }) => {
   const [saerchParams] = useSearchParams();
-  const searchTerm = saerchParams.get("search") || "";
+  const searchTerm = saerchParams.get("q") || "";
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -276,10 +276,10 @@ const NavSearchbar = ({ defaultValue }: { defaultValue?: string }) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const search = (formData.get("search") as string).trim();
+    const search = (formData.get("q") as string).trim();
 
     if (search) {
-      navigate(`/?search=${search}`);
+      navigate(`/pretrazi?q=${search}`);
     }
   };
 
@@ -287,7 +287,7 @@ const NavSearchbar = ({ defaultValue }: { defaultValue?: string }) => {
     <form onSubmit={handleSubmit} className="flex items-center gap-2">
       <div className="basis-full">
         <Searchbar
-          name="search"
+          name="q"
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);

@@ -14,6 +14,10 @@ export const webRoutes: RouteObject[] = [
         Component: lazy(() => import("./web/blog")),
       },
       {
+        path: "/pretrazi",
+        Component: lazy(() => import("./web/search")),
+      },
+      {
         path: "/:navPage",
         loader: async ({ params }) => {
           const pageName = params.navPage;
