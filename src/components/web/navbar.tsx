@@ -271,17 +271,29 @@ const NavItem = ({
 
 const NavSearchbar = ({ defaultValue }: { defaultValue?: string }) => {
   const [searchTerm, setSearchTerm] = useState(defaultValue ?? "");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const search = (formData.get("search") as string).trim();
+
+    if (search) {
+      navigate(`/?search=${search}`);
+    }
+  };
 
   return (
-    <form className="flex items-center gap-2">
+    <form onSubmit={handleSubmit} className="flex items-center gap-2">
       <div className="basis-full">
         <Searchbar
           name="search"
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value.trim())}
+          onChange={(e) => {
+            setSearchTerm(e.target.value);
+          }}
           aria-label="Pretraži"
           placeholder="Pretraži"
-          required
         />
       </div>
       <Button type="submit">Pretraži</Button>
