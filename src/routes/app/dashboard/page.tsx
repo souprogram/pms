@@ -8,7 +8,6 @@ export default function DashboardPage() {
     isError,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
   } = useBlogListQuery({ myBlogsOnly: true });
 
@@ -22,7 +21,7 @@ export default function DashboardPage() {
     <div className="flex flex-col gap-6 p-4">
       {isPending && <PendingState />}
 
-      {blogs.length === 0 && (
+      {!isPending && blogs.length === 0 && (
         <div className="text-center mt-8">
           <p className="text-xl font-medium">Nema novosti</p>
           <p className="text-sm">Dodaj novu novost da ju vidiš ovdje.</p>
@@ -44,28 +43,28 @@ export default function DashboardPage() {
                 </div>
 
                 {/* Content skeleton */}
-                <div className="p-4 md:w-4/5 space-y-3">
+                <div className="p-4 md:w-4/5 space-y-2">
                   <div className="flex gap-x-8 justify-between items-start">
                     <h2 className="text-xl font-semibold">{blog.title}</h2>
-                    <span className="text-xs bg-foreground text-background px-2 py-1 rounded">
-                      {blog.category}
+                  </div>
+
+                  <div className="flex items-center gap-4">
+                    <span className="text-xs text-stone-500">
+                      {new Date(blog.created_at).toLocaleDateString("hr-HR")}
                     </span>
+                    {blog.updated_at && (
+                      <span className="text-xs text-stone-500">Edited</span>
+                    )}
                   </div>
 
                   <p className="text-sm text-stone-600 line-clamp-2 max-w-prose">
                     {blog.description}
                   </p>
 
-                  <div className="flex gap-4">
-                    <span className="text-xs text-stone-500">
-                      Created: {new Date(blog.created_at).toLocaleDateString()}
-                    </span>
-                    {!blog.updated_at && (
-                      <span className="text-xs text-stone-500">Edited</span>
-                    )}
-                  </div>
-
                   <div className="flex flex-wrap gap-2">
+                    <span className="text-xs bg-primary text-background px-2 py-1 rounded">
+                      {blog.category}
+                    </span>
                     {(blog.hashtags ?? []).map((tag) => (
                       <span
                         key={tag}
@@ -90,10 +89,6 @@ export default function DashboardPage() {
           </Button>
         </div>
       )}
-
-      {isFetching && !isFetchingNextPage && (
-        <div className="text-center text-stone-500">Loading more blogs...</div>
-      )}
     </div>
   );
 }
@@ -110,15 +105,9 @@ const PendingState = () => {
             </div>
 
             {/* Content skeleton */}
-            <div className="p-4 md:w-4/5 space-y-3">
+            <div className="p-4 md:w-4/5 space-y-2">
               <div className="flex gap-x-8 justify-between items-start">
                 <Skeleton className="h-6 w-3/4" />
-                <Skeleton className="h-5 w-12" />
-              </div>
-
-              <div className="space-y-2">
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-5/6" />
               </div>
 
               <div className="flex gap-4">
@@ -126,10 +115,16 @@ const PendingState = () => {
                 <Skeleton className="h-3 w-24" />
               </div>
 
+              <div className="space-y-2 max-w-prose">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-5/6" />
+              </div>
+
               <div className="flex flex-wrap gap-2">
                 <Skeleton className="h-5 w-12" />
                 <Skeleton className="h-5 w-10" />
                 <Skeleton className="h-5 w-14" />
+                <Skeleton className="h-5 w-12" />
               </div>
             </div>
           </div>

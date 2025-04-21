@@ -14,27 +14,33 @@ export default function DashboardLayout() {
     setSidebarOpen((prev) => !prev);
   };
 
+  const title = {
+    "/dashboard": "Moje novosti",
+    "/dashboard/new-blog": "Dodaj novost",
+    "/dashboard/profile": "Moj profil",
+  } as { [key: string]: string };
+
   return (
     <div className="flex h-screen">
       {/* Sidebar */}
       <aside
         className={cn(
-          sidebarOpen ? "w-64" : "w-16",
-          "bg-stone-100 border-r transition-all duration-300 ease-in-out flex flex-col",
+          sidebarOpen ? "w-72" : "w-16",
+          "bg-stone-100 transition-all duration-300 ease-in-out flex flex-col",
         )}
       >
         <div
           className={cn(
-            "p-4 flex items-center justify-between transition",
+            "p-4 flex items-center justify-between transition h-17.25",
             !sidebarOpen && "px-2",
           )}
         >
           {sidebarOpen && (
-            <h1 className="text-xl font-bold line-clamp-1">Author Dashboard</h1>
+            <h1 className="text-lg font-bold line-clamp-1">PMS Dashboard</h1>
           )}
           <button
             onClick={toggleSidebar}
-            className="p-2 rounded-lg hover:bg-foreground/10 active:bg-foreground/15"
+            className="p-2 rounded-lg hover:bg-foreground/10"
           >
             <ChevronRight
               className={cn(
@@ -51,7 +57,7 @@ export default function DashboardLayout() {
               <Link
                 to="/dashboard"
                 className={cn(
-                  "flex items-center p-2 hover:bg-foreground/10 transition-colors rounded-lg active:bg-foreground/15",
+                  "flex items-center p-2 hover:bg-foreground/10 transition-colors rounded-lg ",
                   location.pathname === "/dashboard" && "bg-foreground/10",
                 )}
               >
@@ -63,7 +69,7 @@ export default function DashboardLayout() {
               <Link
                 to="/dashboard/new-blog"
                 className={cn(
-                  "flex items-center p-2 hover:bg-foreground/10 transition-colors rounded-lg active:bg-foreground/15",
+                  "flex items-center p-2 hover:bg-foreground/10 transition-colors rounded-lg ",
                   location.pathname === "/dashboard/new-blog" &&
                     "bg-foreground/10",
                 )}
@@ -80,7 +86,7 @@ export default function DashboardLayout() {
           <Link
             to="/dashboard/profile"
             className={cn(
-              "flex items-center p-2 hover:bg-foreground/10 transition-colors rounded-lg active:bg-foreground/15",
+              "flex items-center p-2 hover:bg-foreground/10 transition-colors rounded-lg",
               location.pathname === "/dashboard/profile" && "bg-foreground/10",
             )}
           >
@@ -98,20 +104,22 @@ export default function DashboardLayout() {
       </aside>
 
       {/* Main content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Header */}
-        <header className="bg-white border-b z-10">
-          <div className="flex items-center justify-between p-4">
-            <h2 className="text-xl font-semibold text-gray-800">
-              Dashboard Overview
-            </h2>
-          </div>
-        </header>
+      <div className="bg-stone-100 p-2 pl-0 w-full">
+        <div className="flex-1 flex flex-col overflow-hidden border border-foreground/15 rounded-lg h-full">
+          {/* Header */}
+          <header className="bg-white border-b z-10">
+            <div className="flex items-center justify-between p-4">
+              <h2 className="text-xl font-semibold text-gray-800">
+                {title[location.pathname] ?? "Dashboard"}
+              </h2>
+            </div>
+          </header>
 
-        {/* Content */}
-        <main className="flex-1 overflow-y-auto">
-          <Outlet />
-        </main>
+          {/* Content */}
+          <main className="flex-1 overflow-y-auto bg-white">
+            <Outlet />
+          </main>
+        </div>
       </div>
     </div>
   );

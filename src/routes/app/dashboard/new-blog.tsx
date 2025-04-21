@@ -130,7 +130,6 @@ export default function NewBlogPage() {
 
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
-    const image_alt = formData.get("alt-text") as string;
     const category = formData.get("category") as string;
     const hashtags = (formData.get("hashtags") as string)
       .split(",")
@@ -148,7 +147,7 @@ export default function NewBlogPage() {
         title,
         description,
         image_url,
-        image_alt,
+        image_alt: title,
         category,
         content,
         hashtags,
@@ -162,8 +161,6 @@ export default function NewBlogPage() {
     <div className="p-4">
       <form onSubmit={handleSubmit}>
         <div className="">
-          <h1 className="text-2xl font-bold mb-6">Dodaj novost</h1>
-
           <div className="space-y-6">
             {/* Title */}
             <div className="space-y-2">
@@ -226,17 +223,6 @@ export default function NewBlogPage() {
                   </p>
                 </div>
               </div>
-            </div>
-
-            {/* Image Alt Text */}
-            <div className="space-y-2">
-              <Label htmlFor="alt-text">Image Alt Text</Label>
-              <Input
-                id="alt-text"
-                name="alt-text"
-                placeholder="Describe the image for accessibility"
-                required
-              />
             </div>
 
             {/* Category */}

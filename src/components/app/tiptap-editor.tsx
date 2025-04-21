@@ -2,8 +2,8 @@ import Image from "@tiptap/extension-image";
 import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { MenuBar } from "./menu-bar";
 import { BlogContent } from "../web/blog/blog-content";
+import { MenuBar } from "./menu-bar";
 
 export const TiptapEditor = ({
   content,

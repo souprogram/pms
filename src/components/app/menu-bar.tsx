@@ -2,10 +2,6 @@ import { Button } from "../ui/button";
 import type { Editor } from "@tiptap/react";
 
 export const MenuBar = ({ editor }: { editor: Editor }) => {
-  if (!editor) {
-    return <></>;
-  }
-
   return (
     <div className="flex flex-wrap gap-1 p-2 border-b">
       <Button

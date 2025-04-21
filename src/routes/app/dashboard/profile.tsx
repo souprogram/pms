@@ -45,7 +45,7 @@ export default function ProfileSetup() {
 
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Complete Your Profile</h1>
+      <p className="font-medium mb-4">Dovrši svoj profil</p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
           <Label htmlFor="fullName">Full Name *</Label>
