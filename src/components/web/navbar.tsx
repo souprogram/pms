@@ -1,11 +1,11 @@
-"use client";
-
 import { useEffect, useRef, useState } from "react";
-import { Pms } from "../icons/pms";
-import { CloseIcon } from "../icons/close-icon";
-import { Link, useNavigate } from "react-router";
-import { HamburgerIcon } from "../icons/hamburger-icon";
+import { Link, useNavigate, useSearchParams } from "react-router";
 import { cn } from "../../lib/utils";
+import { CloseIcon } from "../icons/close-icon";
+import { HamburgerIcon } from "../icons/hamburger-icon";
+import { Pms } from "../icons/pms";
+import { Button } from "../ui/button";
+import { Searchbar } from "../ui/searchbar";
 
 const links = [
   {
@@ -87,16 +87,9 @@ const links = [
   },
 ];
 
-// const getSearchTerm = () => {
-//   if (typeof window === "undefined") {
-//     return "";
-//   }
-
-//   return new URLSearchParams(window.location.search).get("key") || "";
-// };
-
 export const Navbar = () => {
-  // const searchTerm = getSearchTerm();
+  const [saerchParams] = useSearchParams();
+  const searchTerm = saerchParams.get("search") || "";
 
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
 
@@ -130,7 +123,7 @@ export const Navbar = () => {
       </nav>
 
       <div className="ml-auto hidden w-96 lg:block">
-        {/* <NavSearchbar defaultValue={searchTerm} /> */}
+        <NavSearchbar defaultValue={searchTerm} />
       </div>
 
       <button
@@ -159,7 +152,8 @@ const MobileNavigationDrawer = ({
   toggle: () => void;
   links: { title: string; options: { label: string; href: string }[] }[];
 }) => {
-  // const searchTerm = getSearchTerm();
+  const [saerchParams] = useSearchParams();
+  const searchTerm = saerchParams.get("search") || "";
 
   const dialogRef = useRef<HTMLDialogElement>(null);
 
@@ -192,7 +186,7 @@ const MobileNavigationDrawer = ({
             </button>
           </div>
 
-          {/* <NavSearchbar defaultValue={searchTerm} /> */}
+          <NavSearchbar defaultValue={searchTerm} />
         </div>
 
         <nav className="flex-1 overflow-y-auto">
@@ -275,22 +269,22 @@ const NavItem = ({
   );
 };
 
-// const NavSearchbar = ({ defaultValue }: { defaultValue?: string }) => {
-//   const [searchTerm, setSearchTerm] = useState(defaultValue);
+const NavSearchbar = ({ defaultValue }: { defaultValue?: string }) => {
+  const [searchTerm, setSearchTerm] = useState(defaultValue ?? "");
 
-//   return (
-//     <form action={searchAction} className="flex items-center gap-2">
-//       <div className="basis-full">
-//         <Searchbar
-//           value={searchTerm}
-//           onChange={(e) => setSearchTerm(e.target.value)}
-//           name="search"
-//           required
-//           aria-label="Pretraži"
-//           placeholder="Pretraži"
-//         />
-//       </div>
-//       <SubmitButton>Pretraži</SubmitButton>
-//     </form>
-//   );
-// };
+  return (
+    <form className="flex items-center gap-2">
+      <div className="basis-full">
+        <Searchbar
+          name="search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value.trim())}
+          aria-label="Pretraži"
+          placeholder="Pretraži"
+          required
+        />
+      </div>
+      <Button type="submit">Pretraži</Button>
+    </form>
+  );
+};

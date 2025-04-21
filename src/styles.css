@@ -135,6 +135,32 @@ body:has(dialog[open]) {
   }
 }
 
+.font-poppins {
+  font-family: Poppins, var(--font-sans);
+}
+
+::selection {
+  background-color: color-mix(in oklab, var(--color-primary) 25%, transparent);
+}
+
+@keyframes open {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes close {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
 /* Custom styles for the blog content */
 .blog-content {
   @apply flex flex-col gap-4 font-serif;

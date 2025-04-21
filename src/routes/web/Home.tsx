@@ -1,7 +1,7 @@
-import React from "react";
 import { Button } from "../../components/ui/button";
 import { BlogCard } from "../../components/web/blog/blog-card";
 import { useBlogListQuery } from "../../hooks/use-blog-list-query";
+import { useResponsiveChunks } from "../../hooks/use-responsive-chunks";
 
 export default function HomePage() {
   const {
@@ -13,6 +13,10 @@ export default function HomePage() {
     isFetching,
     isFetchingNextPage,
   } = useBlogListQuery();
+
+  const rows = useResponsiveChunks(
+    data?.pages.flatMap((page) => page.blogs) || [],
+  );
 
   if (isPending) {
     return (
@@ -38,13 +42,16 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {data.pages.map((group, i) => (
-          <React.Fragment key={i}>
-            {group.blogs.map((blog) => (
+      <div className="space-y-4">
+        {rows.map((row, rowIndex) => (
+          <div
+            key={`row-${rowIndex}`}
+            className={`grid gap-4 ${getGridClass(row.length)}`}
+          >
+            {row.map((blog) => (
               <BlogCard key={blog.id} blog={blog} />
             ))}
-          </React.Fragment>
+          </div>
         ))}
       </div>
 
@@ -66,4 +73,16 @@ export default function HomePage() {
       )}
     </>
   );
+}
+
+function getGridClass(count: number) {
+  const base = {
+    1: "grid-cols-1",
+    2: "grid-cols-2",
+    3: "grid-cols-3",
+    4: "grid-cols-4",
+  } as { [key: number]: string };
+
+  // Fallback for unexpected counts
+  return base[count] || base[1];
 }
