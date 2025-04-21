@@ -20,8 +20,6 @@ export default function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-6 p-4">
-      <h1 className="text-2xl font-bold">Tvoje novosti</h1>
-
       {isPending && <PendingState />}
 
       {blogs.length === 0 && (

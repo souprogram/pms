@@ -1,11 +1,12 @@
 import { ChevronRight, Newspaper, Plus } from "lucide-react";
 import { useState } from "react";
-import { Link, Outlet } from "react-router";
+import { Link, Outlet, useLocation } from "react-router";
 import { CurrentUserAvatar } from "../../../components/current-user-avatar";
 import { useCurrentUser } from "../../../hooks/use-current-user";
 import { cn } from "../../../lib/utils";
 
 export default function DashboardLayout() {
+  const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const user = useCurrentUser();
 
@@ -33,7 +34,7 @@ export default function DashboardLayout() {
           )}
           <button
             onClick={toggleSidebar}
-            className="p-2 rounded-lg hover:bg-foreground/10"
+            className="p-2 rounded-lg hover:bg-foreground/10 active:bg-foreground/15"
           >
             <ChevronRight
               className={cn(
@@ -49,7 +50,10 @@ export default function DashboardLayout() {
             <li>
               <Link
                 to="/dashboard"
-                className="flex items-center p-2 hover:bg-foreground/10 transition-colors rounded-lg"
+                className={cn(
+                  "flex items-center p-2 hover:bg-foreground/10 transition-colors rounded-lg active:bg-foreground/15",
+                  location.pathname === "/dashboard" && "bg-foreground/10",
+                )}
               >
                 <Newspaper size="20" />
                 {sidebarOpen && <span className="ml-3">Moje novosti</span>}
@@ -58,7 +62,11 @@ export default function DashboardLayout() {
             <li>
               <Link
                 to="/dashboard/new-blog"
-                className="flex items-center p-2 hover:bg-foreground/10 transition-colors rounded-lg"
+                className={cn(
+                  "flex items-center p-2 hover:bg-foreground/10 transition-colors rounded-lg active:bg-foreground/15",
+                  location.pathname === "/dashboard/new-blog" &&
+                    "bg-foreground/10",
+                )}
               >
                 <Plus size="20" />
                 {sidebarOpen && <span className="ml-3">Dodaj novost</span>}
@@ -71,7 +79,10 @@ export default function DashboardLayout() {
         <div className="p-2 border-t border-foreground/15">
           <Link
             to="/dashboard/profile"
-            className="flex items-center hover:bg-foreground/10 p-2 rounded-lg"
+            className={cn(
+              "flex items-center p-2 hover:bg-foreground/10 transition-colors rounded-lg active:bg-foreground/15",
+              location.pathname === "/dashboard/profile" && "bg-foreground/10",
+            )}
           >
             <CurrentUserAvatar />
             {sidebarOpen && (
