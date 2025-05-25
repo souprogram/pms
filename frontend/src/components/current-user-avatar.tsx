@@ -1,5 +1,5 @@
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import { useCurrentUser } from "../hooks/use-current-user";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export const CurrentUserAvatar = () => {
   const user = useCurrentUser();
