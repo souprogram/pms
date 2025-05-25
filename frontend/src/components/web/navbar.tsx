@@ -2,9 +2,9 @@ import { MenuIcon, XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { cn } from "../../lib/utils";
-import { Pms } from "../icons/pms";
-import { Searchbar } from "../ui/searchbar";
+import { PmsSmallIcon } from "../icons";
 import { Button } from "../ui/button";
+import { Searchbar } from "../ui/searchbar";
 
 const links = [
   {
@@ -100,43 +100,43 @@ export const Navbar = () => {
   };
 
   return (
-    <header className="bg-background sticky top-0 flex items-center px-4 py-2 shadow sm:p-4">
+    <header className="bg-background sticky top-0 flex gap-4 items-center justify-between lg:justify-start px-2 py-2 border-b border-gray-300">
       <div className="flex items-center">
         <Link to="/">
-          <Pms className="h-16 sm:h-24" />
+          <PmsSmallIcon />
         </Link>
       </div>
 
-      <nav className="divide-foreground hidden divide-x lg:flex">
-        {links.map((link, index) => (
-          <NavItem
-            key={link.title}
-            link={link}
-            isOpen={openDropdown === index}
-            toggleDropdown={() => toggleDropdown(index)}
-          />
-        ))}
-        <Link
-          to="/pretrazi"
-          className="px-6 hover:text-primary hover:underline"
-        >
-          Pretraži
-        </Link>
-      </nav>
+      <div className="hidden lg:block">
+        <nav className="divide-foreground divide-x divide-gray-300 flex">
+          {links.map((link, index) => (
+            <NavItem
+              key={link.title}
+              link={link}
+              isOpen={openDropdown === index}
+              toggleDropdown={() => toggleDropdown(index)}
+            />
+          ))}
+          <Link
+            to="/pretrazi"
+            className="px-6 hover:text-primary hover:underline"
+          >
+            Pretraži
+          </Link>
+        </nav>
+      </div>
 
-      <button
-        type="button"
-        className="text-foreground ml-auto block lg:hidden"
-        onClick={toggleModal}
-      >
-        <MenuIcon size="32" />
-      </button>
+      <div className="lg:hidden">
+        <button type="button" className="text-foreground" onClick={toggleModal}>
+          <MenuIcon size="24" />
+        </button>
 
-      <MobileNavigationDrawer
-        isOpen={isModalOpened}
-        toggle={toggleModal}
-        links={links}
-      />
+        <MobileNavigationDrawer
+          isOpen={isModalOpened}
+          toggle={toggleModal}
+          links={links}
+        />
+      </div>
     </header>
   );
 };
@@ -189,11 +189,11 @@ const MobileNavigationDrawer = ({
         <div className="bg-background sticky top-0 z-10 py-2">
           <div className="flex items-center justify-between pb-2">
             <Link to="/" onClick={toggle}>
-              <Pms className="h-16 sm:h-24" />
+              <PmsSmallIcon />
             </Link>
 
             <button type="button" className="text-foreground" onClick={toggle}>
-              <XIcon size="32" />
+              <XIcon size="24" />
             </button>
           </div>
 
@@ -212,20 +212,21 @@ const MobileNavigationDrawer = ({
 
         <nav className="flex-1 overflow-y-auto">
           {links.map((link) => (
-            <div key={link.title} className="mb-4">
-              <span className="text-foreground mb-2 text-lg font-medium">
-                {link.title}
-              </span>
-              {link.options.map((option) => (
-                <a
-                  href={option.href}
-                  key={option.label}
-                  className="hover:bg-primary/25 hover:text-primary-600 text-foreground block rounded-md px-2 py-1"
-                  onClick={toggle}
-                >
-                  {option.label}
-                </a>
-              ))}
+            <div key={link.title} className="mb-4 flex flex-col gap-1">
+              <h4 className="text-foreground font-semibold">{link.title}</h4>
+              <ul className="">
+                {link.options.map((option) => (
+                  <li key={option.label}>
+                    <a
+                      href={option.href}
+                      className="hover:underline hover:text-primary text-foreground block rounded-md px-4 py-1"
+                      onClick={toggle}
+                    >
+                      {option.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           ))}
         </nav>

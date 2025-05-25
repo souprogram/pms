@@ -72,7 +72,6 @@ export default function HomePage() {
         <div className="flex justify-center pt-8">
           <Button
             variant="link"
-            size="lg"
             onClick={() => fetchNextPage()}
             disabled={isFetchingNextPage}
           >

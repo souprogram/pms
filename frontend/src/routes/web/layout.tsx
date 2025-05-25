@@ -21,7 +21,7 @@ export default function WebLayout() {
 
 const Footer = () => {
   return (
-    <footer className="container mx-auto px-4 py-4 text-center text-sm sm:text-base md:px-8">
+    <footer className="container mx-auto p-2 sm:p-4 text-center text-xs sm:text-base md:px-8">
       <div className="flex flex-col justify-between gap-x-2 pt-8 lg:flex-row lg:justify-center">
         <span>&copy; 2025 Pulska mreža studenata. Sva prava pridržana.</span>
         <span className="text-foreground/50">

@@ -51,25 +51,33 @@ export default function BlogPage() {
   }
 
   return (
-    <section className="flex flex-col gap-[var(--page-gap)] [--page-gap:calc(var(--spacing)*12)]">
-      <header className="col-span-12 flex w-full flex-col">
+    <section className="flex flex-col [--page-gap:calc(var(--spacing)*8)] gap-[var(--page-gap)] sm:[--page-gap:calc(var(--spacing)*12)]">
+      <header className="col-span-12 flex w-full flex-col gap-4">
         <div className="mx-auto w-fit">
           <BlogInfo blog={blog} />
         </div>
 
-        <h1 className="max-w-prose py-4 text-5xl font-bold text-balance hyphens-auto uppercase md:pb-6 md:text-6xl">
-          {blog.title}
-        </h1>
+        <div className="flex flex-col gap-2 sm:gap-4">
+          <h1 className="max-w-prose text-4xl font-bold text-balance hyphens-auto uppercase sm:text-5xl">
+            {blog.title}
+          </h1>
 
-        <span className="pb-6 text-lg md:text-xl">{blog.description}</span>
+          <span className="text-base sm:text-lg">{blog.description}</span>
 
-        <img
-          src={blog.image_url}
-          alt={blog.image_alt}
-          width={1200}
-          height={675}
-          className="aspect-video w-full object-cover object-center"
-        />
+          <div className="flex flex-col gap-2">
+            <img
+              src={blog.image_url}
+              alt={blog.image_alt}
+              width={1200}
+              height={675}
+              className="aspect-video w-full object-cover object-center"
+            />
+
+            <span className="text-sm sm:text-base text-gray-500">
+              {blog.image_alt}
+            </span>
+          </div>
+        </div>
       </header>
 
       <div className="grid grid-cols-1 gap-[var(--page-gap)] lg:grid-cols-[8fr_4fr] lg:flex-row">
@@ -77,11 +85,12 @@ export default function BlogPage() {
           <BlogContent content={blog.content} />
         </article>
 
-        <aside className="@container/blog-sidebar sticky lg:top-(--nav-height) lg:self-start lg:[--nav-height:136px]">
-          <h2 className="line-clamp-2 pb-4 text-2xl font-semibold text-balance hyphens-auto md:pb-6">
+        <aside className="@container/blog-sidebar sticky lg:top-(--nav-height) lg:self-start lg:[--nav-height:6rem]">
+          <h2 className="line-clamp-2 pb-4 text-2xl font-semibold text-balance hyphens-auto sm:pb-6">
             Povezani članci
           </h2>
-          <div className="grid grid-cols-1 gap-4 md:gap-6 @lg/blog-sidebar:grid-cols-2">
+
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 @lg/blog-sidebar:grid-cols-2">
             {relatedBlogs.map((relatedBlog) => (
               <BlogCard
                 blog={relatedBlog}

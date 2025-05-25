@@ -8,7 +8,7 @@ interface Props {
 
 export const BlogInfo = ({ blog }: Props) => {
   return (
-    <div className="flex items-center gap-1 text-base">
+    <div className="flex items-center gap-1 text-sm sm:text-base">
       <Button asChild variant="link" className="p-0">
         <Link to={`/blogs/${blog?.id}`}>{blog?.category}</Link>
       </Button>
