@@ -9,14 +9,24 @@ type UseBlogListQueryProps = {
   searchQuery?: string;
 };
 
-const getUserId = async () => {
-  const { data, error } = await supabase.auth.getUser();
+const getUserProfileId = async () => {
+  const { data: userData, error: userError } = await supabase.auth.getUser();
 
-  if (error || !data.user) {
+  if (userError || !userData.user) {
     throw new Error("Not authenticated");
   }
 
-  return data.user.id;
+  const { data: profileData, error: profileError } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("user_id", userData.user.id)
+    .single();
+
+  if (profileError) {
+    throw new Error("Failed to fetch user profile");
+  }
+
+  return profileData.id;
 };
 
 export const useBlogListQuery = (options?: Partial<UseBlogListQueryProps>) => {
@@ -25,7 +35,7 @@ export const useBlogListQuery = (options?: Partial<UseBlogListQueryProps>) => {
   const blogListQuery = useInfiniteQuery({
     queryKey: ["blog_list", { myBlogsOnly, searchQuery }],
     queryFn: async ({ pageParam }) => {
-      const userId = myBlogsOnly ? await getUserId() : null;
+      const userId = myBlogsOnly ? await getUserProfileId() : null;
 
       let query = supabase
         .from("blogs")
