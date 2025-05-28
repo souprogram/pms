@@ -15,6 +15,14 @@ export const appRoutes: RouteObject[] = [
         Component: lazy(() => import("./app/sign-up")),
       },
       {
+        path: "/forgot-password",
+        Component: lazy(() => import("./app/forgot-password")),
+      },
+      {
+        path: "/update-password",
+        Component: lazy(() => import("./app/update-password")),
+      },
+      {
         path: "/dashboard",
         loader: async () => {
           const {
