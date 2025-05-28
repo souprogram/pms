@@ -1,20 +1,17 @@
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "../lib/supabase/client";
 
 export const useCurrentUserImage = () => {
-  const [image, setImage] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchUserImage = async () => {
-      const { data, error } = await supabase.auth.getSession();
+  const { data: image } = useQuery({
+    queryKey: ["user", "image"],
+    queryFn: async () => {
+      const { data, error } = await supabase.auth.getUser();
       if (error) {
-        console.error(error);
+        throw error;
       }
-
-      setImage(data.session?.user.user_metadata.avatar_url ?? null);
-    };
-    fetchUserImage();
-  }, []);
+      return data.user.user_metadata.avatar_url ?? undefined;
+    },
+  });
 
   return image;
 };

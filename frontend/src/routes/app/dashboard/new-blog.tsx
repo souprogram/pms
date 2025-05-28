@@ -97,7 +97,7 @@ export default function NewBlogPage() {
         .insert([
           {
             ...formData,
-            author: user?.profile.full_name,
+            author: `${user?.profile?.first_name} ${user?.profile?.last_name}`,
             author_id: userData.user.id,
           },
         ])

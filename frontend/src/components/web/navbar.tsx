@@ -1,10 +1,14 @@
-import { MenuIcon, XIcon } from "lucide-react";
+import { MenuIcon, Search, UserCircle, XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
+import { useCurrentUser } from "../../hooks/use-current-user";
+import { useCurrentUserImage } from "../../hooks/use-current-user-image";
 import { cn } from "../../lib/utils";
 import { PmsSmallIcon } from "../icons";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Searchbar } from "../ui/searchbar";
+import { UserModal } from "./user-modal";
 
 const links = [
   {
@@ -94,13 +98,21 @@ export const Navbar = () => {
   };
 
   const [isModalOpened, setIsModalOpened] = useState(false);
+  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpened((prev) => !prev);
   };
 
+  const toggleUserModal = () => {
+    setIsUserModalOpen((prev) => !prev);
+  };
+
+  const image = useCurrentUserImage();
+  const currentUser = useCurrentUser();
+
   return (
-    <header className="bg-background sticky top-0 flex gap-4 items-center justify-between lg:justify-start px-2 py-2 border-b border-gray-300">
+    <header className="bg-background sticky top-0 flex gap-4 items-center justify-between lg:justify-start px-4 py-2 border-b border-gray-300">
       <div className="flex items-center">
         <Link to="/">
           <PmsSmallIcon />
@@ -117,13 +129,34 @@ export const Navbar = () => {
               toggleDropdown={() => toggleDropdown(index)}
             />
           ))}
-          <Link
-            to="/pretrazi"
-            className="px-6 hover:text-primary hover:underline"
-          >
-            Pretraži
-          </Link>
         </nav>
+      </div>
+
+      <div className="ml-auto flex items-center gap-6">
+        <Link to="/pretrazi" className="hover:text-gray-500 duration-100">
+          <Search size={24} />
+        </Link>
+
+        <button
+          onClick={toggleUserModal}
+          className="focus:outline-none cursor-pointer hover:ring-2 hover:ring-primary hover:ring-offset-1 transition-all rounded-full"
+          aria-label="User profile"
+        >
+          <Avatar className="size-8">
+            {currentUser ? (
+              <>
+                <AvatarImage src={image} />
+                <AvatarFallback>AK</AvatarFallback>
+              </>
+            ) : (
+              <Link to="/login">
+                <UserCircle className="text-gray-600 size-full" />
+              </Link>
+            )}
+          </Avatar>
+        </button>
+
+        <UserModal isOpen={isUserModalOpen} onClose={toggleUserModal} />
       </div>
 
       <div className="lg:hidden">

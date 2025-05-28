@@ -17,8 +17,22 @@ export const appRoutes: RouteObject[] = [
       {
         path: "/dashboard",
         loader: async () => {
-          const { error } = await supabase.auth.getUser();
-          if (error) {
+          const {
+            data: { user },
+            error,
+          } = await supabase.auth.getUser();
+
+          if (error || !user) {
+            throw new Response("Not found", { status: 404 });
+          }
+
+          const { data: author, error: authorError } = await supabase
+            .from("authors")
+            .select()
+            .eq("id", user.id)
+            .single();
+
+          if (authorError || !author) {
             throw new Response("Not found", { status: 404 });
           }
         },

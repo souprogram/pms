@@ -71,7 +71,7 @@ body:has(dialog[open]) {
   --primary-foreground: oklch(0.985 0.001 106.423);
   --secondary: oklch(0.97 0.001 106.424);
   --secondary-foreground: oklch(0.216 0.006 56.043);
-  --muted: oklch(0.97 0.001 106.424);
+  --muted: oklch(0.9 0.001 106.424);
   --muted-foreground: oklch(0.553 0.013 58.071);
   --accent: oklch(0.97 0.001 106.424);
   --accent-foreground: oklch(0.216 0.006 56.043);
@@ -173,7 +173,7 @@ body:has(dialog[open]) {
 }
 
 .blog-content p:first-of-type {
-  @apply first-letter:float-start first-letter:me-2 first-letter:text-6xl first-letter:leading-12;
+  @apply first-letter:float-start first-letter:me-2 first-letter:text-6xl first-letter:leading-14;
 }
 
 .blog-content h1,

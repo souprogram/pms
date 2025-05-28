@@ -4,18 +4,18 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 export const CurrentUserAvatar = () => {
   const user = useCurrentUser();
 
-  const initials = (user?.profile.full_name as string)
-    ?.split(" ")
-    ?.map((word) => word[0])
-    ?.join("")
-    ?.slice(0, 2)
-    ?.toUpperCase();
+  const initials: string = [user?.profile?.first_name, user?.profile?.last_name]
+    .map((word) => word[0])
+    .join("")
+    .toUpperCase();
 
-  const profileImage = user?.user.user_metadata.avatar_url as string | null;
+  const profileImage = user?.user.user_metadata.avatar_url as
+    | string
+    | undefined;
 
   return (
     <Avatar>
-      {profileImage && <AvatarImage src={profileImage} alt={initials} />}
+      <AvatarImage src={profileImage} />
       <AvatarFallback className="bg-stone-700 text-white">
         {initials}
       </AvatarFallback>

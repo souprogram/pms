@@ -93,7 +93,9 @@ export default function DashboardLayout() {
             <CurrentUserAvatar />
             {sidebarOpen && (
               <div className="ml-3">
-                <p className="text-sm font-medium">{user?.profile.full_name}</p>
+                <p className="text-sm font-medium">
+                  {user?.profile?.first_name} {user?.profile?.last_name}
+                </p>
                 <p className="text-xs text-muted-foreground">
                   {user?.user.email ?? ""}
                 </p>

@@ -13,12 +13,15 @@ export const useCurrentUser = () => {
 
       const { data: profileData, error: profileError } = await supabase
         .from("profiles")
-        .select("full_name")
+        .select("first_name, last_name, is_subscribed")
         .eq("user_id", data.user?.id)
         .single();
 
       if (profileError) {
-        throw profileError;
+        return {
+          user: data.user,
+          profile: null,
+        };
       }
 
       return {

@@ -42,13 +42,39 @@ export function LoginForm({
     }
   };
 
+  const loginWithGoogle = async () => {
+    setIsLoading(true);
+    setError(null);
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: window.location.origin,
+      },
+    });
+
+    if (error) {
+      setError(error.message);
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(false);
+  };
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl">Prijava</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            <div className="flex flex-col gap-4">
+              <div className="">
+                Upiši informacije za prijavu ili se prijavi putem Google-a
+              </div>
+              <Button variant={"outline"} onClick={loginWithGoogle}>
+                Ili se prijavi putem Google-a
+              </Button>
+            </div>
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -67,12 +93,12 @@ export function LoginForm({
               </div>
               <div className="grid gap-2">
                 <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">Lozinka</Label>
                   <a
                     href="/forgot-password"
                     className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                   >
-                    Forgot your password?
+                    Zaboravili ste lozinku?
                   </a>
                 </div>
                 <Input
@@ -85,13 +111,13 @@ export function LoginForm({
               </div>
               {error && <p className="text-sm text-red-500">{error}</p>}
               <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Logging in..." : "Login"}
+                {isLoading ? "Prijavljivanje..." : "Prijavi se"}
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{" "}
+              Niste registrirani?{" "}
               <Link to="/sign-up" className="underline underline-offset-4">
-                Sign up
+                Registriraj se
               </Link>
             </div>
           </form>
