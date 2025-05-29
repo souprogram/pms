@@ -34,7 +34,7 @@ const links = [
   {
     title: "Udruge članice",
     options: [
-      { label: "Akademska sportska udruga 'UNIPUSPORT'", href: "/unipusport" },
+      { label: `Akademska sportska udruga "UNIPUSPORT"`, href: "/unipusport" },
       {
         label: "Udruga studenata fakulteta prirodnih znanosti u Puli",
         href: "/prirodne-znanosti-pula",
