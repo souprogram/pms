@@ -20,25 +20,17 @@ const links = [
       { label: "Radne grupe", href: "/radne-grupe" },
     ],
   },
-  {
-    title: "Projekti",
-    options: [
-      { label: "PMS.hr", href: "/pms-hr" },
-      { label: "PMS app", href: "/pms-app" },
-      { label: "Inovacije", href: "/inovacije" },
-      { label: "Znanost i istraživanje", href: "/znanost-i-istrazivanje" },
-      { label: "Sport", href: "/sport" },
-      { label: "Na terenu", href: "/na-terenu" },
-    ],
-  },
-  {
-    title: "Baza znanja",
-    options: [
-      { label: "Dokumenti PMS-a", href: "/dokumenti-pms" },
-      { label: "Dokumenti Sveučilišta", href: "/dokumenti-sveucilista" },
-      { label: "Zakon je zakon!", href: "/zakon" },
-    ],
-  },
+  // {
+  //   title: "Projekti",
+  //   options: [
+  //     { label: "PMS.hr", href: "/pms-hr" },
+  //     { label: "PMS app", href: "/pms-app" },
+  //     { label: "Inovacije", href: "/inovacije" },
+  //     { label: "Znanost i istraživanje", href: "/znanost-i-istrazivanje" },
+  //     { label: "Sport", href: "/sport" },
+  //     { label: "Na terenu", href: "/na-terenu" },
+  //   ],
+  // },
   {
     title: "Udruge članice",
     options: [
@@ -68,10 +60,11 @@ const links = [
     ],
   },
   {
-    title: "Kontakti",
+    title: "Baza znanja",
     options: [
-      { label: "Kontakti", href: "/kontakti" },
-      { label: "Impressum", href: "/impressum" },
+      { label: "Dokumenti PMS-a", href: "/dokumenti-pms" },
+      { label: "Dokumenti Sveučilišta", href: "/dokumenti-sveucilista" },
+      { label: "Zakon je zakon!", href: "/zakon" },
     ],
   },
   {
@@ -86,6 +79,13 @@ const links = [
         label: "Prema lokalnoj i regionalnoj samoupravi",
         href: "/lokalna-samouprava",
       },
+    ],
+  },
+  {
+    title: "Kontakti",
+    options: [
+      { label: "Kontakti", href: "/kontakti" },
+      { label: "Impressum", href: "/impressum" },
     ],
   },
 ];
