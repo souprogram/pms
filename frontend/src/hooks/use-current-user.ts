@@ -8,7 +8,7 @@ export const useCurrentUser = () => {
       const { data, error } = await supabase.auth.getUser();
 
       if (error) {
-        throw error;
+        return null;
       }
 
       const { data: profileData, error: profileError } = await supabase
@@ -33,7 +33,7 @@ export const useCurrentUser = () => {
   });
 
   if (userError) {
-    throw userError;
+    return null;
   }
 
   return userData ?? null;

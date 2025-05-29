@@ -19,7 +19,7 @@ export const useProfile = () => {
       } = await supabase.auth.getUser();
 
       if (userError || !user) {
-        throw new Error("User not authenticated");
+        return null;
       }
 
       const { data, error } = await supabase
@@ -29,7 +29,7 @@ export const useProfile = () => {
         .single();
 
       if (error) {
-        throw error;
+        return null;
       }
 
       return data;

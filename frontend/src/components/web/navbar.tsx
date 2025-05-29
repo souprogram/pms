@@ -36,7 +36,7 @@ const links = [
     options: [
       { label: "Dokumenti PMS-a", href: "/dokumenti-pms" },
       { label: "Dokumenti Sveučilišta", href: "/dokumenti-sveucilista" },
-      { label: "Releventni Zakoni i odredbe", href: "/zakoni-odredbe" },
+      { label: "Zakon je zakon!", href: "/zakon" },
     ],
   },
   {

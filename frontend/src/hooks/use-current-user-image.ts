@@ -7,7 +7,7 @@ export const useCurrentUserImage = () => {
     queryFn: async () => {
       const { data, error } = await supabase.auth.getUser();
       if (error) {
-        throw error;
+        return undefined;
       }
       return data.user.user_metadata.avatar_url ?? undefined;
     },
