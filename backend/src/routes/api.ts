@@ -1,21 +1,24 @@
 import { Router } from "express";
 import { BlogController } from "../http/controllers/blog-controller";
-import {
-  BlogIndexSchema,
-  BlogStoreSchema,
-  upload as blogUpload,
-} from "../http/requests/blog-request";
-import { validateRequest } from "../http/requests/validate-request";
-import { authenticate } from "../middlewares/auth-middleware";
+import { upload as blogUpload } from "../http/requests/blog-request";
+import { auth, authorizeAuthor } from "../middlewares";
 
 const router = Router();
 
-router.get("/blogs", validateRequest(BlogIndexSchema), BlogController.index);
+router.get("/blogs", BlogController.index);
+
 router.post(
   "/blogs",
-  [authenticate, blogUpload.single("image"), validateRequest(BlogStoreSchema)],
+  [auth, authorizeAuthor, blogUpload.single("image")],
   BlogController.store
 );
-router.delete("/blogs/:id", [authenticate], BlogController.destroy);
+
+router.patch(
+  "/blogs/:id",
+  [auth, authorizeAuthor, blogUpload.single("image")],
+  BlogController.update
+);
+
+router.delete("/blogs/:id", [auth, authorizeAuthor], BlogController.destroy);
 
 export const apiRoutes = router;

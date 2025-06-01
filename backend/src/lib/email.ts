@@ -1,13 +1,12 @@
 import nodemailer from "nodemailer";
-import { env } from "../environment";
 
 export const emailService = nodemailer.createTransport({
   pool: true,
-  host: env.emailHost,
-  port: Number(env.emailPort),
+  host: process.env.EMAIL_HOST,
+  port: Number(process.env.EMAIL_PORT),
   secure: true,
   auth: {
-    user: env.emailUser,
-    pass: env.emailPass,
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });

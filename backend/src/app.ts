@@ -3,13 +3,10 @@ import { apiRoutes } from "./routes/api";
 
 export const app = express();
 
-// Middleware
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.json({
-    message: "Welcome to the API",
-  });
+  res.json({ message: "Welcome to the API" });
 });
 
 // Routes

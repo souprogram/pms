@@ -15,12 +15,6 @@ export const BlogIndexSchema = z.object({
   }),
 });
 
-export const BlogDestroySchema = z.object({
-  params: z.object({
-    id: z.number().int().positive(),
-  }),
-});
-
 export const upload = multer({
   limits: {
     fileSize: 5 * 1024 * 1024, // 5MB
@@ -41,11 +35,37 @@ export const BlogStoreSchema = z.object({
     image_alt: z.string(),
     category: z.string(),
     content: z.string(),
+    author: z.string(),
     hashtags: z.string().transform((val) => {
       return val
         .split(",")
         .map((tag) => tag.trim())
         .filter(Boolean);
     }),
+  }),
+});
+
+export const BlogUpdateSchema = z.object({
+  params: z.object({
+    id: z.coerce.number().int().positive(),
+  }),
+  body: z.object({
+    title: z.string(),
+    description: z.string(),
+    image_alt: z.string(),
+    category: z.string(),
+    content: z.string(),
+    hashtags: z.string().transform((val) => {
+      return val
+        .split(",")
+        .map((tag) => tag.trim())
+        .filter(Boolean);
+    }),
+  }),
+});
+
+export const BlogDestroySchema = z.object({
+  params: z.object({
+    id: z.coerce.number().int().positive(),
   }),
 });
