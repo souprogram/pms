@@ -12,8 +12,8 @@ export const BlogInfo = ({ blog }: Props) => {
       <Button asChild variant="link" className="p-0">
         <Link to={`/blogs/${blog?.id}`}>{blog?.category}</Link>
       </Button>
-      <span className="px-1">{blog?.author}</span>
-      <span className="text-foreground/75">
+      <span className="px-1 truncate">{blog?.author}</span>
+      <span className="text-foreground/75 min-w-24">
         {new Date(blog?.created_at).toLocaleDateString("hr-HR")}
       </span>
     </div>

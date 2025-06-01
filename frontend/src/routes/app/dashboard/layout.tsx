@@ -2,13 +2,13 @@ import { ChevronRight, Newspaper, Plus } from "lucide-react";
 import { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router";
 import { CurrentUserAvatar } from "../../../components/current-user-avatar";
-import { useCurrentUser } from "../../../hooks/use-current-user";
+import { useUserProfile } from "../../../hooks/use-profile";
 import { cn } from "../../../lib/utils";
 
 export default function DashboardLayout() {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const user = useCurrentUser();
+  const { user, profile } = useUserProfile();
 
   const toggleSidebar = () => {
     setSidebarOpen((prev) => !prev);
@@ -94,10 +94,10 @@ export default function DashboardLayout() {
             {sidebarOpen && (
               <div className="ml-3">
                 <p className="text-sm font-medium">
-                  {user?.profile?.first_name} {user?.profile?.last_name}
+                  {profile?.first_name} {profile?.last_name}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {user?.user.email ?? ""}
+                  {user?.email ?? ""}
                 </p>
               </div>
             )}

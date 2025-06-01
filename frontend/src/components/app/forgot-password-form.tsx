@@ -58,10 +58,9 @@ export function ForgotPasswordForm({
       ) : (
         <Card>
           <CardHeader>
-            <CardTitle className="text-2xl">Reset Your Password</CardTitle>
+            <CardTitle className="text-2xl">Resetiraj svoju lozinku</CardTitle>
             <CardDescription>
-              Type in your email and we&apos;ll send you a link to reset your
-              password
+              Unesi svoj email i poslat ćemo ti link za resetiranje lozinke
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -80,13 +79,13 @@ export function ForgotPasswordForm({
                 </div>
                 {error && <p className="text-sm text-red-500">{error}</p>}
                 <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Sending..." : "Send reset email"}
+                  {isLoading ? "Šaljem..." : "Pošalji link za resetiranje"}
                 </Button>
               </div>
               <div className="mt-4 text-center text-sm">
-                Already have an account?{" "}
+                Već imaš račun?{" "}
                 <Link to="/login" className="underline underline-offset-4">
-                  Login
+                  Prijava
                 </Link>
               </div>
             </form>

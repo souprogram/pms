@@ -15,13 +15,13 @@ import {
   SelectValue,
 } from "../../../components/ui/select";
 import { Textarea } from "../../../components/ui/textarea";
-import { useCurrentUser } from "../../../hooks/use-current-user";
+import { useUserProfile } from "../../../hooks/use-profile";
 import { supabase } from "../../../lib/supabase/client";
 
 export default function NewBlogPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const user = useCurrentUser();
+  const { profile } = useUserProfile();
 
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -97,7 +97,7 @@ export default function NewBlogPage() {
         .insert([
           {
             ...formData,
-            author: `${user?.profile?.first_name} ${user?.profile?.last_name}`,
+            author: `${profile?.first_name} ${profile?.last_name}`,
             author_id: userData.user.id,
           },
         ])

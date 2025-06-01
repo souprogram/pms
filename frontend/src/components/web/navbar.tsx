@@ -1,11 +1,9 @@
-import { MenuIcon, Search, UserCircle, XIcon } from "lucide-react";
+import { MenuIcon, Search, XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
-import { useCurrentUser } from "../../hooks/use-current-user";
-import { useCurrentUserImage } from "../../hooks/use-current-user-image";
 import { cn } from "../../lib/utils";
+import { CurrentUserAvatar } from "../current-user-avatar";
 import { PmsSmallIcon } from "../icons";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
 import { Searchbar } from "../ui/searchbar";
 import { UserModal } from "./user-modal";
@@ -20,17 +18,6 @@ const links = [
       { label: "Radne grupe", href: "/radne-grupe" },
     ],
   },
-  // {
-  //   title: "Projekti",
-  //   options: [
-  //     { label: "PMS.hr", href: "/pms-hr" },
-  //     { label: "PMS app", href: "/pms-app" },
-  //     { label: "Inovacije", href: "/inovacije" },
-  //     { label: "Znanost i istraživanje", href: "/znanost-i-istrazivanje" },
-  //     { label: "Sport", href: "/sport" },
-  //     { label: "Na terenu", href: "/na-terenu" },
-  //   ],
-  // },
   {
     title: "Udruge članice",
     options: [
@@ -92,24 +79,20 @@ const links = [
 
 export const Navbar = () => {
   const [openDropdown, setOpenDropdown] = useState<number | null>(null);
+  const [openMobileDrawer, setOpenMobileDrawer] = useState(false);
+  const [openUserModal, setOpenUserModal] = useState(false);
 
   const toggleDropdown = (index: number) => {
     setOpenDropdown(openDropdown !== index ? index : null);
   };
 
-  const [isModalOpened, setIsModalOpened] = useState(false);
-  const [isUserModalOpen, setIsUserModalOpen] = useState(false);
-
-  const toggleModal = () => {
-    setIsModalOpened((prev) => !prev);
+  const toggleMobileDrawer = () => {
+    setOpenMobileDrawer((prev) => !prev);
   };
 
   const toggleUserModal = () => {
-    setIsUserModalOpen((prev) => !prev);
+    setOpenUserModal((prev) => !prev);
   };
-
-  const image = useCurrentUserImage();
-  const currentUser = useCurrentUser();
 
   return (
     <header className="bg-background sticky top-0 flex gap-4 items-center justify-between lg:justify-start px-4 py-2 border-b border-gray-300">
@@ -133,40 +116,33 @@ export const Navbar = () => {
       </div>
 
       <div className="ml-auto flex items-center gap-6">
-        <Link to="/pretrazi" className="hover:text-gray-500 duration-100">
-          <Search size={24} />
-        </Link>
+        <div className="hidden lg:block">
+          <Link to="/pretrazi" className="hover:text-gray-500 duration-100">
+            <Search size={24} />
+          </Link>
+        </div>
 
-        <button
+        <CurrentUserAvatar
           onClick={toggleUserModal}
           className="focus:outline-none cursor-pointer hover:ring-2 hover:ring-primary hover:ring-offset-1 transition-all rounded-full"
           aria-label="User profile"
-        >
-          <Avatar className="size-8">
-            {currentUser ? (
-              <>
-                <AvatarImage src={image} />
-                <AvatarFallback>AK</AvatarFallback>
-              </>
-            ) : (
-              <Link to="/login">
-                <UserCircle className="text-gray-600 size-full" />
-              </Link>
-            )}
-          </Avatar>
-        </button>
+        />
 
-        <UserModal isOpen={isUserModalOpen} onClose={toggleUserModal} />
+        <UserModal isOpen={openUserModal} onClose={toggleUserModal} />
       </div>
 
       <div className="lg:hidden">
-        <button type="button" className="text-foreground" onClick={toggleModal}>
+        <button
+          type="button"
+          className="text-foreground"
+          onClick={toggleMobileDrawer}
+        >
           <MenuIcon size="24" />
         </button>
 
         <MobileNavigationDrawer
-          isOpen={isModalOpened}
-          toggle={toggleModal}
+          isOpen={openMobileDrawer}
+          toggle={toggleMobileDrawer}
           links={links}
         />
       </div>
@@ -213,9 +189,7 @@ const MobileNavigationDrawer = ({
     <dialog
       ref={dialogRef}
       className={cn(
-        "[--animation-duration:0.3s]",
-        "backdrop:bg-foreground/50 bg-background m-0 ml-auto min-h-dvh w-full max-w-2xl",
-        "transition-all transition-discrete duration-[var(--animation-duration)] [animation-direction:forwards] [animation-duration:var(--animation-duration)] [animation-name:close] open:[animation-name:open]",
+        "[--animation-duration:0.3s] backdrop:bg-foreground/50 bg-background m-0 ml-auto min-h-dvh w-full max-w-2xl transition-all transition-discrete duration-[var(--animation-duration)] [animation-direction:forwards] [animation-duration:var(--animation-duration)] [animation-name:close] open:[animation-name:open]",
       )}
     >
       <div className="flex h-full flex-col gap-4 px-4 sm:px-4">
@@ -307,12 +281,12 @@ const NavItem = ({
       </button>
 
       {link.options.length > 0 && isOpen && (
-        <div className="divide-foreground/10 bg-background absolute top-10 min-w-max divide-y rounded-md p-2 shadow-sm">
+        <div className="divide-foreground/10 bg-background absolute top-10 min-w-max divide-y shadow-sm">
           {link.options.map((option) => (
             <button
               type="button"
               onMouseDown={(e) => handleDropdownItemClick(e, option.href)}
-              className="hover:bg-primary/15 hover:text-primary-600 block w-full px-2 py-1.5 text-left whitespace-nowrap"
+              className="hover:bg-primary/15 hover:text-primary-600 block w-full px-2 py-1.5 text-left whitespace-nowrap px-4"
               key={option.label}
             >
               {option.label}

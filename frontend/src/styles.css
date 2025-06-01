@@ -8,7 +8,7 @@
 @theme {
   --background: var(--color-stone-50);
   --foreground: var(--color-stone-700);
-  --primary: #d3203c;
+  --primary: oklch(0.5598 0.2088 20.42);
   --primary-foreground: var(--color-stone-50);
 }
 
@@ -60,18 +60,18 @@ body:has(dialog[open]) {
 }
 
 :root {
-  --radius: 0.625rem;
+  --radius: 0rem;
   --background: var(--color-stone-50);
   --foreground: var(--color-stone-700);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.147 0.004 49.25);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.147 0.004 49.25);
-  --primary: #d3203c;
+  --primary: oklch(0.5598 0.2088 20.42);
   --primary-foreground: oklch(0.985 0.001 106.423);
   --secondary: oklch(0.97 0.001 106.424);
   --secondary-foreground: oklch(0.216 0.006 56.043);
-  --muted: oklch(0.9 0.001 106.424);
+  --muted: oklch(0.958 0 0);
   --muted-foreground: oklch(0.553 0.013 58.071);
   --accent: oklch(0.97 0.001 106.424);
   --accent-foreground: oklch(0.216 0.006 56.043);
@@ -101,7 +101,7 @@ body:has(dialog[open]) {
   --card-foreground: oklch(0.985 0.001 106.423);
   --popover: oklch(0.216 0.006 56.043);
   --popover-foreground: oklch(0.985 0.001 106.423);
-  --primary: #d3203c;
+  --primary: oklch(0.5598 0.2088 20.42);
   --primary-foreground: oklch(0.216 0.006 56.043);
   --secondary: oklch(0.268 0.007 34.298);
   --secondary-foreground: oklch(0.985 0.001 106.423);
@@ -166,38 +166,38 @@ body:has(dialog[open]) {
 /* Custom styles for the blog content */
 .blog-content {
   @apply flex flex-col gap-4 font-serif;
-}
 
-.blog-content p {
-  @apply text-base sm:text-lg;
-}
+  p {
+    @apply text-base sm:text-lg;
+  }
 
-.blog-content p:first-of-type {
-  @apply first-letter:float-start first-letter:me-2 first-letter:text-6xl first-letter:leading-14;
-}
+  p:first-of-type {
+    @apply first-letter:float-start first-letter:me-2 first-letter:text-6xl first-letter:leading-14;
+  }
 
-.blog-content h1,
-.blog-content h2,
-.blog-content h3 {
-  @apply font-sans;
-}
+  h1,
+  h2,
+  h3 {
+    @apply font-sans;
+  }
 
-.blog-content h1 {
-  @apply text-3xl font-bold;
-}
+  h1 {
+    @apply text-3xl font-bold;
+  }
 
-.blog-content strong {
-  @apply font-bold;
-}
+  strong {
+    @apply font-semibold;
+  }
 
-.blog-content ul li {
-  @apply list-disc list-inside;
-}
+  ul li {
+    @apply list-disc list-inside;
+  }
 
-.blog-content ol li {
-  @apply list-decimal list-inside;
-}
+  ol li {
+    @apply list-decimal list-inside;
+  }
 
-.blog-content li > * {
-  @apply inline;
+  li > * {
+    @apply inline;
+  }
 }
