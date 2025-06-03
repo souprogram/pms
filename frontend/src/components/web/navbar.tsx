@@ -1,6 +1,7 @@
 import { MenuIcon, Search, XIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router";
+import { useUserProfile } from "../../hooks/use-profile";
 import { cn } from "../../lib/utils";
 import { CurrentUserAvatar } from "../current-user-avatar";
 import { PmsSmallIcon } from "../icons";
@@ -94,6 +95,8 @@ export const Navbar = () => {
     setOpenUserModal((prev) => !prev);
   };
 
+  const { user, profile } = useUserProfile();
+
   return (
     <header className="bg-background sticky top-0 flex gap-4 items-center justify-between lg:justify-start px-4 py-2 border-b border-gray-300">
       <div className="flex items-center">
@@ -122,11 +125,21 @@ export const Navbar = () => {
           </Link>
         </div>
 
-        <CurrentUserAvatar
-          onClick={toggleUserModal}
-          className="focus:outline-none cursor-pointer hover:ring-2 hover:ring-primary hover:ring-offset-1 transition-all rounded-full"
-          aria-label="User profile"
-        />
+        {!user || !profile ? (
+          <Link to="/login" className="flex items-center justify-center">
+            <CurrentUserAvatar
+              onClick={toggleUserModal}
+              className="focus:outline-none cursor-pointer hover:ring-2 hover:ring-primary hover:ring-offset-1 transition-all rounded-full"
+              aria-label="User profile"
+            />
+          </Link>
+        ) : (
+          <CurrentUserAvatar
+            onClick={toggleUserModal}
+            className="focus:outline-none cursor-pointer hover:ring-2 hover:ring-primary hover:ring-offset-1 transition-all rounded-full"
+            aria-label="User profile"
+          />
+        )}
 
         <UserModal isOpen={openUserModal} onClose={toggleUserModal} />
       </div>

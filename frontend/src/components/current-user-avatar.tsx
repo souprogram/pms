@@ -1,22 +1,19 @@
 import { User } from "lucide-react";
-import { Link } from "react-router";
 import { useUserProfile } from "../hooks/use-profile";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
-type CurrentUserAvatarProps = React.ComponentProps<typeof Avatar>;
-
-export const CurrentUserAvatar = (props: CurrentUserAvatarProps) => {
+export const CurrentUserAvatar = (
+  props: React.ComponentProps<typeof Avatar>,
+) => {
   const { user, profile } = useUserProfile();
 
   if (!user || !profile) {
     return (
-      <Link to="/login" className="flex items-center justify-center">
-        <Avatar {...props}>
-          <AvatarFallback className="bg-muted text-white">
-            <User className="text-gray-700" />
-          </AvatarFallback>
-        </Avatar>
-      </Link>
+      <Avatar {...props}>
+        <AvatarFallback className="bg-muted text-white">
+          <User className="text-gray-700" />
+        </AvatarFallback>
+      </Avatar>
     );
   }
 

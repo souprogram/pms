@@ -2,6 +2,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { supabase } from "../lib/supabase/client";
 import { Blog } from "../types/blog";
+import { useUserProfile } from "./use-profile";
 import { useResponsiveChunks } from "./use-responsive-chunks";
 
 type UseBlogListQueryProps = {
@@ -9,33 +10,15 @@ type UseBlogListQueryProps = {
   searchQuery?: string;
 };
 
-const getUserProfileId = async () => {
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-
-  if (userError || !userData.user) {
-    throw new Error("Not authenticated");
-  }
-
-  const { data: profileData, error: profileError } = await supabase
-    .from("profiles")
-    .select("id")
-    .eq("user_id", userData.user.id)
-    .single();
-
-  if (profileError) {
-    throw new Error("Failed to fetch user profile");
-  }
-
-  return profileData.id;
-};
-
 export const useBlogListQuery = (options?: Partial<UseBlogListQueryProps>) => {
   const { myBlogsOnly = false, searchQuery = "" } = options || {};
+
+  const { user } = useUserProfile();
 
   const blogListQuery = useInfiniteQuery({
     queryKey: ["blog_list", { myBlogsOnly, searchQuery }],
     queryFn: async ({ pageParam }) => {
-      const userId = myBlogsOnly ? await getUserProfileId() : null;
+      const userId = myBlogsOnly ? (user?.id ?? null) : null;
 
       let query = supabase
         .from("blogs")

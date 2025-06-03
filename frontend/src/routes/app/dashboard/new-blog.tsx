@@ -1,7 +1,5 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router";
-import { toast } from "sonner";
 import { TiptapEditor } from "../../../components/app/tiptap-editor";
 import { Button } from "../../../components/ui/button";
 import { Checkbox } from "../../../components/ui/checkbox";
@@ -15,17 +13,16 @@ import {
   SelectValue,
 } from "../../../components/ui/select";
 import { Textarea } from "../../../components/ui/textarea";
-import { useUserProfile } from "../../../hooks/use-profile";
-import { supabase } from "../../../lib/supabase/client";
+import { useCreateBlog } from "../../../hooks/use-create-blog";
 
 export default function NewBlogPage() {
   const navigate = useNavigate();
-  const queryClient = useQueryClient();
-  const { profile } = useUserProfile();
+  const createBlog = useCreateBlog();
 
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [createMore, setCreateMore] = useState<boolean>(false);
+  const [content, setContent] = useState<string>("");
 
   const categories = [
     { value: "Šou program", label: "Šou program" },
@@ -39,7 +36,6 @@ export default function NewBlogPage() {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      setSelectedFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreviewImage(reader.result as string);
@@ -47,80 +43,8 @@ export default function NewBlogPage() {
       reader.readAsDataURL(file);
     } else {
       setPreviewImage(null);
-      setSelectedFile(null);
     }
   };
-
-  const triggerFileInput = () => {
-    fileInputRef.current?.click();
-  };
-
-  const uploadImage = async (file: File) => {
-    const fileExt = file.name.split(".").pop();
-    const fileName = `${Math.random()}.${fileExt}`;
-    const filePath = `${fileName}`;
-
-    const { error } = await supabase.storage
-      .from("blog-images") // Your bucket name
-      .upload(filePath, file);
-
-    if (error) {
-      throw error;
-    }
-
-    const { data } = supabase.storage
-      .from("blog-images")
-      .getPublicUrl(filePath);
-
-    return data.publicUrl;
-  };
-
-  const createBlogMutation = useMutation({
-    mutationFn: async (formData: {
-      title: string;
-      description: string;
-      image_url: string;
-      image_alt: string;
-      category: string;
-      content: string;
-      hashtags: string[];
-    }) => {
-      const { data: userData, error: userError } =
-        await supabase.auth.getUser();
-
-      if (userError) {
-        throw userError;
-      }
-
-      const { data, error } = await supabase
-        .from("blogs")
-        .insert([
-          {
-            ...formData,
-            author: `${profile?.first_name} ${profile?.last_name}`,
-            author_id: userData.user.id,
-          },
-        ])
-        .select();
-
-      if (error) {
-        throw error;
-      }
-
-      return data;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["blogs"] });
-      toast.success("Blog created successfully!", { closeButton: true });
-      navigate("/dashboard");
-    },
-    onError: (error) => {
-      toast.error("Failed to create blog", { closeButton: true });
-      console.error(error);
-    },
-  });
-
-  const [contentText, setContentText] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -128,33 +52,24 @@ export default function NewBlogPage() {
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
 
-    const title = formData.get("title") as string;
-    const description = formData.get("description") as string;
-    const category = formData.get("category") as string;
-    const hashtags = (formData.get("hashtags") as string)
-      .split(",")
-      .map((tag) => tag.trim());
-
-    const content = contentText;
-
-    try {
-      let image_url = "";
-      if (selectedFile) {
-        image_url = await uploadImage(selectedFile);
-      }
-
-      await createBlogMutation.mutateAsync({
-        title,
-        description,
-        image_url,
-        image_alt: title,
-        category,
+    await createBlog.mutateAsync(
+      {
+        title: formData.get("title")?.toString() ?? "",
+        description: formData.get("description")?.toString() ?? "",
+        image: formData.get("image") as File | null,
+        image_alt: formData.get("image_alt")?.toString() ?? "",
+        category: formData.get("category")?.toString() ?? "",
+        hashtags: formData.get("hashtags")?.toString() ?? "",
         content,
-        hashtags,
-      });
-    } catch (error) {
-      console.error("Error creating blog:", error);
-    }
+        send_mail: formData.get("send-mail") === "on",
+      },
+      {
+        onSuccess: () => {
+          if (createMore) return;
+          navigate("/dashboard");
+        },
+      },
+    );
   };
 
   return (
@@ -213,7 +128,7 @@ export default function NewBlogPage() {
                   />
                   <Button
                     type="button"
-                    onClick={triggerFileInput}
+                    onClick={() => fileInputRef.current?.click()}
                     className="w-full bg-foreground"
                   >
                     Upload Image
@@ -245,7 +160,7 @@ export default function NewBlogPage() {
             {/* Content */}
             <div className="space-y-2">
               <Label>Content</Label>
-              <TiptapEditor onChange={setContentText} />
+              <TiptapEditor onChange={setContent} />
             </div>
 
             {/* Hashtags */}
@@ -261,14 +176,18 @@ export default function NewBlogPage() {
 
             <div className="space-y-4">
               <div className="flex items-center gap-x-2">
-                <Checkbox id="send-users" />
-                <Label htmlFor="send-users">
+                <Checkbox id="send-mail" />
+                <Label htmlFor="send-mail">
                   Pošalji svim korisnicima na email
                 </Label>
               </div>
 
               <div className="flex items-center gap-x-2">
-                <Checkbox id="create-more" />
+                <Checkbox
+                  id="create-more"
+                  defaultChecked={createMore}
+                  onChange={() => setCreateMore((prev) => !prev)}
+                />
                 <Label htmlFor="create-more">
                   Kreiraj još jedan post{" "}
                   <span className="text-muted-foreground">
@@ -280,10 +199,8 @@ export default function NewBlogPage() {
 
             {/* Actions */}
             <div className="flex gap-4">
-              <Button type="submit" disabled={createBlogMutation.isPending}>
-                {createBlogMutation.isPending
-                  ? "Publishing..."
-                  : "Publish Post"}
+              <Button type="submit" disabled={createBlog.isPending}>
+                {createBlog.isPending ? "Publishing..." : "Publish Post"}
               </Button>
             </div>
           </div>

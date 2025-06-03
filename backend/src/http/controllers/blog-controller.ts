@@ -20,7 +20,9 @@ export class BlogController {
       const user = req.user;
       assert(user, "User must be authenticated");
 
-      const { body: newBlog } = BlogStoreSchema.parse(req);
+      const {
+        body: { send_mail: shouldSendMail, ...newBlog },
+      } = BlogStoreSchema.parse(req);
 
       const file = req.file;
       assert(file, "Image file is required");
@@ -54,6 +56,14 @@ export class BlogController {
         .select()
         .single()
         .throwOnError();
+
+      if (!shouldSendMail) {
+        res.status(201).json({
+          message: "Blog created successfully",
+          blog: blogData,
+        });
+        return;
+      }
 
       // Send email to all subscribed users
       const { data: usersData } = await supabase

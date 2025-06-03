@@ -42,6 +42,7 @@ export const BlogStoreSchema = z.object({
         .map((tag) => tag.trim())
         .filter(Boolean);
     }),
+    send_mail: z.boolean().optional().default(false),
   }),
 });
 
